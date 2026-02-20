@@ -5,6 +5,7 @@
     "toggleLang": "EN",
     "profile": "Profil",
     "sheets": "Tabulky",
+    "rules": "Pravidla",
     "logout": "Odhlásit se"
   },
   "health": {
@@ -27,7 +28,8 @@
       "whatsappSection": "Propojit WhatsApp",
       "phonePlaceholder": "+420123456789",
       "linkPhoneButton": "Propojit telefon",
-      "phoneSaved": "Telefon úspěšně propojen!"
+      "phoneSaved": "Telefon úspěšně propojen!",
+      "phoneAlreadyTaken": "Toto telefonní číslo je již propojeno s jiným účtem."
     }
   },
   "sheets": {
@@ -36,5 +38,32 @@
     "connectButton": "Připojit Google Tabulku",
     "urlPlaceholder": "Vložte URL Google Tabulky...",
     "connecting": "Připojování..."
+  },
+  "rules": {
+    "title": "Pravidla trackeru",
+    "addRule": "Přidat pravidlo",
+    "cancel": "Zrušit",
+    "createTitle": "Nové pravidlo trackeru",
+    "namePlaceholder": "Název pravidla...",
+    "selectSheet": "Vyberte tabulku...",
+    "selectMetric": "Vyberte metriku...",
+    "noHeaders": "V řádku 1 tabulky nebyly nalezeny žádné záhlaví.",
+    "promptPlaceholder": "Zpráva WhatsApp k odeslání...",
+    "save": "Uložit pravidlo",
+    "saving": "Ukládání...",
+    "delete": "Smazat",
+    "empty": "Zatím žádná pravidla trackeru.",
+    "scheduleDaily": "Jednou denně",
+    "scheduleWeekly": "Jednou týdně",
+    "scheduleHourly": "Každých N hodin",
+    "days": {
+      "0": "Neděle",
+      "1": "Pondělí",
+      "2": "Úterý",
+      "3": "Středa",
+      "4": "Čtvrtek",
+      "5": "Pátek",
+      "6": "Sobota"
+    }
   }
 }

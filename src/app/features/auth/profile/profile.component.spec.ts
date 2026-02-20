@@ -54,10 +54,42 @@ describe('ProfileComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('test@example.com');
   });
 
+  it('should pre-populate phone from saved user', () => {
+    authService.currentUser.set({ ...mockUser, whatsapp_phone: '+48123456789' });
+    const fixture = TestBed.createComponent(ProfileComponent);
+    fixture.componentInstance.ngOnInit();
+    expect(fixture.componentInstance.phone()).toBe('+48123456789');
+  });
+
   it('should call linkWhatsapp when form is submitted', async () => {
     const fixture = TestBed.createComponent(ProfileComponent);
     fixture.componentInstance.phone.set('+48123456789');
-    fixture.componentInstance.onLinkWhatsapp();
+    await fixture.componentInstance.onLinkWhatsapp();
     expect(authService.linkWhatsapp).toHaveBeenCalledWith('+48123456789');
+  });
+
+  it('should call me() after successful link to refresh user', async () => {
+    const fixture = TestBed.createComponent(ProfileComponent);
+    fixture.componentInstance.phone.set('+48123456789');
+    await fixture.componentInstance.onLinkWhatsapp();
+    expect(authService.me).toHaveBeenCalled();
+  });
+
+  it('should show error on 409 duplicate phone', async () => {
+    authService.linkWhatsapp.mockRejectedValue({ status: 409 });
+    const fixture = TestBed.createComponent(ProfileComponent);
+    fixture.componentInstance.phone.set('+48999999999');
+    await fixture.componentInstance.onLinkWhatsapp();
+    expect(fixture.componentInstance.errorMessage()).toBe(
+      'This phone number is already linked to another account.',
+    );
+  });
+
+  it('should clear errorMessage on successful link', async () => {
+    const fixture = TestBed.createComponent(ProfileComponent);
+    fixture.componentInstance.errorMessage.set('old error');
+    fixture.componentInstance.phone.set('+48123456789');
+    await fixture.componentInstance.onLinkWhatsapp();
+    expect(fixture.componentInstance.errorMessage()).toBeNull();
   });
 });

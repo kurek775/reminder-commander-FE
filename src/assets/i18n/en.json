@@ -5,6 +5,7 @@
     "toggleLang": "CS",
     "profile": "Profile",
     "sheets": "Sheets",
+    "rules": "Rules",
     "logout": "Log out"
   },
   "health": {
@@ -27,7 +28,8 @@
       "whatsappSection": "Link WhatsApp",
       "phonePlaceholder": "+48123456789",
       "linkPhoneButton": "Link Phone",
-      "phoneSaved": "Phone linked successfully!"
+      "phoneSaved": "Phone linked successfully!",
+      "phoneAlreadyTaken": "This phone number is already linked to another account."
     }
   },
   "sheets": {
@@ -36,5 +38,32 @@
     "connectButton": "Connect a Google Sheet",
     "urlPlaceholder": "Paste Google Sheet URL...",
     "connecting": "Connecting..."
+  },
+  "rules": {
+    "title": "Tracker Rules",
+    "addRule": "Add Rule",
+    "cancel": "Cancel",
+    "createTitle": "New Tracker Rule",
+    "namePlaceholder": "Rule name...",
+    "selectSheet": "Select a sheet...",
+    "selectMetric": "Select metric...",
+    "noHeaders": "No headers found in row 1 of the sheet.",
+    "promptPlaceholder": "WhatsApp message to send...",
+    "save": "Save Rule",
+    "saving": "Saving...",
+    "delete": "Delete",
+    "empty": "No tracker rules yet.",
+    "scheduleDaily": "Once a day",
+    "scheduleWeekly": "Once a week",
+    "scheduleHourly": "Every N hours",
+    "days": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    }
   }
 }

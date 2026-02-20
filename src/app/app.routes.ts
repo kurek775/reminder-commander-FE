@@ -36,5 +36,13 @@ export const routes: Routes = [
         (m) => m.SheetsListComponent,
       ),
   },
+  {
+    path: 'rules',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/rules/rules-list.component').then(
+        (m) => m.RulesListComponent,
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

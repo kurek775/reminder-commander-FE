@@ -15,6 +15,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 export class ProfileComponent implements OnInit {
   phone = signal('');
   saveMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
 
   readonly authService = inject(AuthService);
   private readonly transloco = inject(TranslocoService);
@@ -23,11 +24,23 @@ export class ProfileComponent implements OnInit {
     if (!this.authService.currentUser()) {
       this.authService.me();
     }
+    this.phone.set(this.authService.currentUser()?.whatsapp_phone ?? '');
   }
 
-  onLinkWhatsapp(): void {
-    this.authService.linkWhatsapp(this.phone()).then(() => {
+  async onLinkWhatsapp(): Promise<void> {
+    this.errorMessage.set(null);
+    this.saveMessage.set(null);
+    try {
+      await this.authService.linkWhatsapp(this.phone());
+      await this.authService.me();
       this.saveMessage.set(this.transloco.translate('auth.profile.phoneSaved'));
-    });
+    } catch (err) {
+      const status = (err as { status?: number })?.status;
+      if (status === 409) {
+        this.errorMessage.set(this.transloco.translate('auth.profile.phoneAlreadyTaken'));
+      } else {
+        this.errorMessage.set('Failed to link phone. Please try again.');
+      }
+    }
   }
 }

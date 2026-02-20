@@ -1,0 +1,155 @@
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+      {{ 'rules.title' | transloco }}
+    </h1>
+    <button
+      (click)="toggleForm()"
+      class="px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors">
+      {{ showForm() ? ('rules.cancel' | transloco) : ('rules.addRule' | transloco) }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="mb-6 p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        {{ 'rules.createTitle' | transloco }}
+      </h2>
+
+      <div class="space-y-3">
+        <!-- Rule name -->
+        <input
+          type="text"
+          [ngModel]="formName()"
+          (ngModelChange)="formName.set($event)"
+          [placeholder]="'rules.namePlaceholder' | transloco"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <!-- Sheet selection -->
+        <select
+          [ngModel]="formSheetId()"
+          (ngModelChange)="onSheetChange($event)"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="">{{ 'rules.selectSheet' | transloco }}</option>
+          @for (sheet of sheets(); track sheet.id) {
+            <option [value]="sheet.id">{{ sheet.sheet_name }}</option>
+          }
+        </select>
+
+        <!-- Metric selection (populated from sheet row 1) -->
+        @if (formSheetId()) {
+          @if (sheetHeaders().length > 0) {
+            <select
+              [ngModel]="formMetric()"
+              (ngModelChange)="formMetric.set($event)"
+              class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="">{{ 'rules.selectMetric' | transloco }}</option>
+              @for (header of sheetHeaders(); track header.column) {
+                <option [value]="header.name">{{ header.name }} ({{ header.column }})</option>
+              }
+            </select>
+          } @else {
+            <p class="text-xs text-gray-500 dark:text-gray-400 italic">{{ 'rules.noHeaders' | transloco }}</p>
+          }
+        }
+
+        <!-- Schedule type -->
+        <select
+          [ngModel]="scheduleType()"
+          (ngModelChange)="scheduleType.set($event)"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="daily">{{ 'rules.scheduleDaily' | transloco }}</option>
+          <option value="weekly">{{ 'rules.scheduleWeekly' | transloco }}</option>
+          <option value="hourly">{{ 'rules.scheduleHourly' | transloco }}</option>
+        </select>
+
+        @if (scheduleType() === 'daily' || scheduleType() === 'weekly') {
+          <select
+            [ngModel]="scheduleHour()"
+            (ngModelChange)="scheduleHour.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            @for (h of hourOptions; track h) {
+              <option [value]="h">{{ padHour(h) }}</option>
+            }
+          </select>
+        }
+
+        @if (scheduleType() === 'weekly') {
+          <select
+            [ngModel]="scheduleDay()"
+            (ngModelChange)="scheduleDay.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option [value]="1">{{ 'rules.days.1' | transloco }}</option>
+            <option [value]="2">{{ 'rules.days.2' | transloco }}</option>
+            <option [value]="3">{{ 'rules.days.3' | transloco }}</option>
+            <option [value]="4">{{ 'rules.days.4' | transloco }}</option>
+            <option [value]="5">{{ 'rules.days.5' | transloco }}</option>
+            <option [value]="6">{{ 'rules.days.6' | transloco }}</option>
+            <option [value]="0">{{ 'rules.days.0' | transloco }}</option>
+          </select>
+        }
+
+        @if (scheduleType() === 'hourly') {
+          <select
+            [ngModel]="scheduleInterval()"
+            (ngModelChange)="scheduleInterval.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            @for (i of intervalOptions; track i) {
+              <option [value]="i">{{ i }}h</option>
+            }
+          </select>
+        }
+
+        <!-- Prompt text -->
+        <textarea
+          [ngModel]="formPromptText()"
+          (ngModelChange)="formPromptText.set($event)"
+          [placeholder]="'rules.promptPlaceholder' | transloco"
+          rows="3"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        ></textarea>
+
+        @if (errorMessage()) {
+          <p class="text-sm text-red-600 dark:text-red-400">{{ errorMessage() }}</p>
+        }
+
+        <button
+          (click)="onCreateRule()"
+          [disabled]="!isFormValid() || isLoading()"
+          class="w-full px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          {{ isLoading() ? ('rules.saving' | transloco) : ('rules.save' | transloco) }}
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (rules().length === 0 && !isLoading()) {
+    <p class="text-sm text-gray-500 dark:text-gray-400">
+      {{ 'rules.empty' | transloco }}
+    </p>
+  }
+
+  <ul class="space-y-3">
+    @for (rule of rules(); track rule.id) {
+      <li class="p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex items-start justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ rule.name }}</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ cronToHuman(rule.cron_schedule) }}</p>
+          @if (rule.metric_name) {
+            <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">{{ rule.metric_name }} (col {{ rule.target_column }})</p>
+          }
+          <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ rule.prompt_text }}</p>
+        </div>
+        <button
+          (click)="onDeleteRule(rule.id)"
+          [title]="'rules.delete' | transloco"
+          class="flex-shrink-0 p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </li>
+    }
+  </ul>
+</div>
