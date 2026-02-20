@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
 import { HealthService, HealthResponse } from './health.service';
 
 @Component({
   selector: 'app-health',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoModule],
   templateUrl: './health.component.html',
   styleUrl: './health.component.scss',
 })

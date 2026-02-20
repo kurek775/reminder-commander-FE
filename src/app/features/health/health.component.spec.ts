@@ -1,8 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
+import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
+
 import { HealthComponent } from './health.component';
 import { HealthService, HealthResponse } from './health.service';
+import en from '../../../assets/i18n/en.json';
+import cs from '../../../assets/i18n/cs.json';
+
+const translocoTesting = TranslocoTestingModule.forRoot({
+  langs: { en, cs },
+  translocoConfig: { availableLangs: ['en', 'cs'], defaultLang: 'en' },
+  preloadLangs: true,
+} as TranslocoTestingOptions);
 
 describe('HealthComponent', () => {
   let component: HealthComponent;
@@ -19,7 +29,7 @@ describe('HealthComponent', () => {
     getHealthMock = vi.fn();
 
     await TestBed.configureTestingModule({
-      imports: [HealthComponent],
+      imports: [HealthComponent, translocoTesting],
       providers: [
         {
           provide: HealthService,

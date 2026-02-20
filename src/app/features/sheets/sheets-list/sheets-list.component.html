@@ -1,0 +1,14 @@
+<div class="sheets-container">
+  <h2>{{ 'sheets.title' | transloco }}</h2>
+  <app-connect-sheet />
+
+  @if (sheets().length === 0) {
+    <p>{{ 'sheets.empty' | transloco }}</p>
+  } @else {
+    <ul>
+      @for (sheet of sheets(); track sheet.id) {
+        <li>{{ sheet.sheet_name }} ({{ sheet.google_sheet_id }})</li>
+      }
+    </ul>
+  }
+</div>

@@ -1,0 +1,20 @@
+<div class="profile-container" *ngIf="authService.currentUser() as user">
+  <h2>{{ 'auth.profile.title' | transloco }}</h2>
+  <p>{{ user.display_name }}</p>
+  <p>{{ user.email }}</p>
+
+  <h3>{{ 'auth.profile.whatsappSection' | transloco }}</h3>
+  <div class="phone-form">
+    <input
+      type="tel"
+      [placeholder]="'auth.profile.phonePlaceholder' | transloco"
+      [ngModel]="phone()"
+      (ngModelChange)="phone.set($event)"
+      aria-label="WhatsApp phone number"
+    />
+    <button (click)="onLinkWhatsapp()">{{ 'auth.profile.linkPhoneButton' | transloco }}</button>
+  </div>
+  @if (saveMessage()) {
+    <p class="success">{{ saveMessage() }}</p>
+  }
+</div>

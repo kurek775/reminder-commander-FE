@@ -1,16 +1,16 @@
 <div class="health-container">
   @if (isLoading()) {
-    <p class="loading">Checking backend health...</p>
+    <p class="loading">{{ 'health.loading' | transloco }}</p>
   } @else if (errorMessage()) {
     <div class="error">
-      <h2>Connection Error</h2>
+      <h2>{{ 'health.errorTitle' | transloco }}</h2>
       <p>{{ errorMessage() }}</p>
     </div>
   } @else if (health()) {
     <div class="health-card">
       <h1>{{ health()!.message }}</h1>
-      <p>Status: <strong>{{ health()!.status }}</strong></p>
-      <p>Version: <strong>{{ health()!.version }}</strong></p>
+      <p>{{ 'health.statusLabel' | transloco }} <strong>{{ health()!.status }}</strong></p>
+      <p>{{ 'health.versionLabel' | transloco }} <strong>{{ health()!.version }}</strong></p>
     </div>
   }
 </div>
