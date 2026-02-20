@@ -1,0 +1,16 @@
+<div class="health-container">
+  @if (isLoading()) {
+    <p class="loading">Checking backend health...</p>
+  } @else if (errorMessage()) {
+    <div class="error">
+      <h2>Connection Error</h2>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  } @else if (health()) {
+    <div class="health-card">
+      <h1>{{ health()!.message }}</h1>
+      <p>Status: <strong>{{ health()!.status }}</strong></p>
+      <p>Version: <strong>{{ health()!.version }}</strong></p>
+    </div>
+  }
+</div>
