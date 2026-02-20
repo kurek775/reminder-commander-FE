@@ -33,6 +33,8 @@
   "sheets": {
     "title": "Your Google Sheets",
     "empty": "No sheets connected yet.",
-    "connectButton": "Connect a Google Sheet"
+    "connectButton": "Connect a Google Sheet",
+    "urlPlaceholder": "Paste Google Sheet URL...",
+    "connecting": "Connecting..."
   }
 }

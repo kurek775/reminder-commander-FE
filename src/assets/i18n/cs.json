@@ -33,6 +33,8 @@
   "sheets": {
     "title": "Vaše Google Tabulky",
     "empty": "Zatím žádné tabulky.",
-    "connectButton": "Připojit Google Tabulku"
+    "connectButton": "Připojit Google Tabulku",
+    "urlPlaceholder": "Vložte URL Google Tabulky...",
+    "connecting": "Připojování..."
   }
 }

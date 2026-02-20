@@ -23,6 +23,12 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly tokenService = inject(TokenService);
+
+  constructor() {
+    if (!this.tokenService.isTokenExpired()) {
+      this.me().catch(() => this.tokenService.clearTokens());
+    }
+  }
   private readonly apiUrl = `${environment.apiUrl}/api/v1/auth`;
 
   async login(): Promise<void> {

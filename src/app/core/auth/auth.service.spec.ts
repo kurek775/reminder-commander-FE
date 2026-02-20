@@ -10,11 +10,21 @@ import { of } from 'rxjs';
 describe('AuthService', () => {
   let service: AuthService;
   let httpClient: { get: ReturnType<typeof vi.fn>; patch: ReturnType<typeof vi.fn> };
-  let tokenService: { setTokens: ReturnType<typeof vi.fn>; getAccessToken: ReturnType<typeof vi.fn> };
+  let tokenService: {
+    setTokens: ReturnType<typeof vi.fn>;
+    getAccessToken: ReturnType<typeof vi.fn>;
+    isTokenExpired: ReturnType<typeof vi.fn>;
+    clearTokens: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
     httpClient = { get: vi.fn(), patch: vi.fn() };
-    tokenService = { setTokens: vi.fn(), getAccessToken: vi.fn() };
+    tokenService = {
+      setTokens: vi.fn(),
+      getAccessToken: vi.fn(),
+      isTokenExpired: vi.fn().mockReturnValue(true),
+      clearTokens: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
