@@ -6,6 +6,7 @@
     "profile": "Profile",
     "sheets": "Sheets",
     "rules": "Rules",
+    "warlord": "Warlord",
     "logout": "Log out"
   },
   "health": {
@@ -65,5 +66,30 @@
       "5": "Friday",
       "6": "Saturday"
     }
+  },
+  "warlord": {
+    "title": "Warlord",
+    "subtitle": "Voice calls for overdue tasks in your Google Sheets.",
+    "triggerNow": "Trigger Now",
+    "triggering": "Triggering...",
+    "triggered": "Scan triggered! Your phone should ring shortly.",
+    "triggerFailed": "Failed to trigger scan. Please try again.",
+    "addRule": "Add Rule",
+    "cancel": "Cancel",
+    "createTitle": "New Warlord Rule",
+    "sheetLayout": "Expected sheet layout — Col A: task name · Col B: deadline (YYYY-MM-DD) · Col C: done (TRUE/FALSE)",
+    "namePlaceholder": "Rule name...",
+    "selectSheet": "Select a sheet...",
+    "save": "Save Rule",
+    "saving": "Saving...",
+    "delete": "Delete",
+    "edit": "Edit voice message",
+    "saveEdit": "Save",
+    "promptPlaceholder": "Voice call script... use {task_name} and {deadline} as placeholders. Leave empty for default.",
+    "promptHint": "Placeholders: {task_name}, {deadline}. Leave blank to use the default message.",
+    "rulesTitle": "Active Rules",
+    "emptyRules": "No warlord rules yet. Add one to get started.",
+    "logsTitle": "Voice Call History",
+    "emptyLogs": "No voice calls logged yet."
   }
 }

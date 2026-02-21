@@ -1,0 +1,284 @@
+<div class="max-w-3xl mx-auto px-4 py-8">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+        {{ 'warlord.title' | transloco }}
+      </h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {{ 'warlord.subtitle' | transloco }}
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        (click)="onTrigger()"
+        [disabled]="isTriggering()"
+        class="px-4 py-2 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+        {{ isTriggering() ? ('warlord.triggering' | transloco) : ('warlord.triggerNow' | transloco) }}
+      </button>
+      <button
+        (click)="toggleForm()"
+        class="px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors">
+        {{ showForm() ? ('warlord.cancel' | transloco) : ('warlord.addRule' | transloco) }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Trigger feedback banner -->
+  @if (triggerMessage()) {
+    <div class="mb-4 px-4 py-3 rounded-md border"
+         [class]="triggerMessage() === 'warlord.triggered'
+           ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-700'
+           : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'">
+      <p class="text-sm"
+         [class]="triggerMessage() === 'warlord.triggered'
+           ? 'text-amber-800 dark:text-amber-300'
+           : 'text-red-700 dark:text-red-400'">
+        {{ triggerMessage() | transloco }}
+      </p>
+    </div>
+  }
+
+  <!-- Add Rule Form -->
+  @if (showForm()) {
+    <div class="mb-6 p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+        {{ 'warlord.createTitle' | transloco }}
+      </h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+        {{ 'warlord.sheetLayout' | transloco }}
+      </p>
+
+      <div class="space-y-3">
+        <input
+          type="text"
+          [ngModel]="formName()"
+          (ngModelChange)="formName.set($event)"
+          [placeholder]="'warlord.namePlaceholder' | transloco"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <select
+          [ngModel]="formSheetId()"
+          (ngModelChange)="formSheetId.set($event)"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="">{{ 'warlord.selectSheet' | transloco }}</option>
+          @for (sheet of sheets(); track sheet.id) {
+            <option [value]="sheet.id">{{ sheet.sheet_name }}</option>
+          }
+        </select>
+
+        <select
+          [ngModel]="scheduleType()"
+          (ngModelChange)="scheduleType.set($event)"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="daily">{{ 'rules.scheduleDaily' | transloco }}</option>
+          <option value="weekly">{{ 'rules.scheduleWeekly' | transloco }}</option>
+          <option value="hourly">{{ 'rules.scheduleHourly' | transloco }}</option>
+        </select>
+
+        @if (scheduleType() === 'daily' || scheduleType() === 'weekly') {
+          <select
+            [ngModel]="scheduleHour()"
+            (ngModelChange)="scheduleHour.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            @for (h of hourOptions; track h) {
+              <option [value]="h">{{ padHour(h) }}</option>
+            }
+          </select>
+        }
+
+        @if (scheduleType() === 'weekly') {
+          <select
+            [ngModel]="scheduleDay()"
+            (ngModelChange)="scheduleDay.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option [value]="1">{{ 'rules.days.1' | transloco }}</option>
+            <option [value]="2">{{ 'rules.days.2' | transloco }}</option>
+            <option [value]="3">{{ 'rules.days.3' | transloco }}</option>
+            <option [value]="4">{{ 'rules.days.4' | transloco }}</option>
+            <option [value]="5">{{ 'rules.days.5' | transloco }}</option>
+            <option [value]="6">{{ 'rules.days.6' | transloco }}</option>
+            <option [value]="0">{{ 'rules.days.0' | transloco }}</option>
+          </select>
+        }
+
+        @if (scheduleType() === 'hourly') {
+          <select
+            [ngModel]="scheduleInterval()"
+            (ngModelChange)="scheduleInterval.set(+$event)"
+            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            @for (i of intervalOptions; track i) {
+              <option [value]="i">{{ i }}h</option>
+            }
+          </select>
+        }
+
+        <textarea
+          [ngModel]="formPromptText()"
+          (ngModelChange)="formPromptText.set($event)"
+          [placeholder]="'warlord.promptPlaceholder' | transloco"
+          rows="3"
+          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        ></textarea>
+        <p class="text-xs text-gray-400 dark:text-gray-500">{{ 'warlord.promptHint' | transloco }}</p>
+
+        @if (errorMessage()) {
+          <p class="text-sm text-red-600 dark:text-red-400">{{ errorMessage() }}</p>
+        }
+
+        <button
+          (click)="onCreateRule()"
+          [disabled]="!isFormValid() || isLoading()"
+          class="w-full px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          {{ isLoading() ? ('warlord.saving' | transloco) : ('warlord.save' | transloco) }}
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Warlord Rules -->
+  <section class="mb-8">
+    <h2 class="text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-3">
+      {{ 'warlord.rulesTitle' | transloco }}
+    </h2>
+
+    @if (rules().length === 0 && !isLoading()) {
+      <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'warlord.emptyRules' | transloco }}</p>
+    }
+
+    <ul class="space-y-3">
+      @for (rule of rules(); track rule.id) {
+        <li class="p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+          <!-- Rule header row -->
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ rule.name }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ cronToHuman(rule.cron_schedule) }}</p>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <!-- Check Sheet -->
+              <button
+                (click)="onDebugRule(rule.id)"
+                title="Check sheet"
+                class="p-1.5 text-gray-400 hover:text-green-600 dark:hover:text-green-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </button>
+              <!-- Edit prompt -->
+              <button
+                (click)="onEditRule(rule)"
+                [title]="'warlord.edit' | transloco"
+                class="p-1.5 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </button>
+              <!-- Delete -->
+              <button
+                (click)="onDeleteRule(rule.id)"
+                [title]="'warlord.delete' | transloco"
+                class="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Inline prompt editor -->
+          @if (editingRuleId() === rule.id) {
+            <div class="mt-3 space-y-2">
+              <textarea
+                [ngModel]="editingPromptText()"
+                (ngModelChange)="editingPromptText.set($event)"
+                [placeholder]="'warlord.promptPlaceholder' | transloco"
+                rows="3"
+                class="w-full px-3 py-2 text-sm border border-indigo-400 dark:border-indigo-500 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              ></textarea>
+              <p class="text-xs text-gray-400 dark:text-gray-500">{{ 'warlord.promptHint' | transloco }}</p>
+              <div class="flex gap-2">
+                <button
+                  (click)="onSaveEdit(rule.id)"
+                  class="px-3 py-1.5 text-xs font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors">
+                  {{ 'warlord.saveEdit' | transloco }}
+                </button>
+                <button
+                  (click)="onCancelEdit()"
+                  class="px-3 py-1.5 text-xs font-medium rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  {{ 'warlord.cancel' | transloco }}
+                </button>
+              </div>
+            </div>
+          } @else if (rule.prompt_text) {
+            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400 italic line-clamp-2">{{ rule.prompt_text }}</p>
+          }
+
+          <!-- Debug / Check Sheet panel -->
+          @if (debugRuleId() === rule.id) {
+            <div class="mt-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 text-xs font-mono">
+              @if (!debugResult()) {
+                <p class="text-gray-500 dark:text-gray-400">Loading sheet data...</p>
+              } @else {
+                <p class="text-gray-500 dark:text-gray-400 mb-2">Today: <span class="text-gray-900 dark:text-white">{{ debugResult()!.today }}</span></p>
+
+                @if (debugResult()!.missed_tasks.length > 0) {
+                  <p class="text-green-700 dark:text-green-400 font-semibold mb-1">✓ {{ debugResult()!.missed_tasks.length }} missed task(s) found — trigger should work</p>
+                  @for (t of debugResult()!.missed_tasks; track t.row) {
+                    <p class="text-gray-700 dark:text-gray-300">Row {{ t.row }}: <span class="text-amber-600 dark:text-amber-400">{{ t.task }}</span> — due {{ t.deadline }}</p>
+                  }
+                } @else {
+                  <p class="text-red-600 dark:text-red-400 font-semibold mb-2">✗ No missed tasks found. Raw rows below:</p>
+                  @if (debugResult()!.raw_rows.length === 0) {
+                    <p class="text-gray-500">Sheet appears empty or unreadable.</p>
+                  }
+                  @for (r of debugResult()!.raw_rows; track $index) {
+                    <p class="text-gray-600 dark:text-gray-400">[{{ $index }}] {{ r | json }}</p>
+                  }
+                  <p class="mt-2 text-gray-500 dark:text-gray-500">Expected: Col A = task name · Col B = YYYY-MM-DD date · Col C = FALSE (past date, unchecked)</p>
+                }
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+
+  <!-- Voice Call Log -->
+  <section>
+    <h2 class="text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-3">
+      {{ 'warlord.logsTitle' | transloco }}
+    </h2>
+
+    @if (logs().length === 0 && !isLoading()) {
+      <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'warlord.emptyLogs' | transloco }}</p>
+    }
+
+    <ul class="space-y-2">
+      @for (log of logs(); track log.id) {
+        <li class="px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex items-center gap-3">
+          <span class="shrink-0 text-xs font-medium px-2 py-0.5 rounded-full"
+            [class]="log.direction === 'outbound'
+              ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+              : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'">
+            {{ log.direction }}
+          </span>
+          <span class="shrink-0 text-xs font-medium px-2 py-0.5 rounded-full"
+            [class]="log.status === 'failed'
+              ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+              : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'">
+            {{ log.status }}
+          </span>
+          <p class="flex-1 text-sm text-gray-700 dark:text-gray-300 truncate">{{ log.message_content }}</p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 shrink-0">
+            {{ log.created_at | date:'dd/MM HH:mm' }}
+          </p>
+        </li>
+      }
+    </ul>
+  </section>
+
+</div>

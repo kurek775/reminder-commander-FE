@@ -33,6 +33,10 @@ import { AuthService } from './core/auth/auth.service';
                  class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 {{ 'nav.rules' | transloco }}
               </a>
+              <a routerLink="/warlord" routerLinkActive="text-indigo-600 dark:text-indigo-400"
+                 class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                {{ 'nav.warlord' | transloco }}
+              </a>
               <button (click)="authService.logout()"
                       class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 {{ 'nav.logout' | transloco }}

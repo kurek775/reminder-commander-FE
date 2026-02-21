@@ -6,6 +6,7 @@
     "profile": "Profil",
     "sheets": "Tabulky",
     "rules": "Pravidla",
+    "warlord": "Velitel",
     "logout": "Odhlásit se"
   },
   "health": {
@@ -65,5 +66,30 @@
       "5": "Pátek",
       "6": "Sobota"
     }
+  },
+  "warlord": {
+    "title": "Velitel",
+    "subtitle": "Hlasové hovory pro promeškané úkoly ve vašich Google Tabulkách.",
+    "triggerNow": "Spustit nyní",
+    "triggering": "Spouštím...",
+    "triggered": "Sken spuštěn! Telefon by měl brzy zazvonit.",
+    "triggerFailed": "Spuštění selhalo. Zkuste to prosím znovu.",
+    "addRule": "Přidat pravidlo",
+    "cancel": "Zrušit",
+    "createTitle": "Nové pravidlo velitele",
+    "sheetLayout": "Očekávané rozložení tabulky — Sl. A: název úkolu · Sl. B: termín (YYYY-MM-DD) · Sl. C: hotovo (TRUE/FALSE)",
+    "namePlaceholder": "Název pravidla...",
+    "selectSheet": "Vyberte tabulku...",
+    "save": "Uložit pravidlo",
+    "saving": "Ukládání...",
+    "delete": "Smazat",
+    "edit": "Upravit hlasovou zprávu",
+    "saveEdit": "Uložit",
+    "promptPlaceholder": "Skript hlasového hovoru... použijte {task_name} a {deadline}. Prázdné = výchozí zpráva.",
+    "promptHint": "Zástupné znaky: {task_name}, {deadline}. Prázdné = výchozí zpráva.",
+    "rulesTitle": "Aktivní pravidla",
+    "emptyRules": "Zatím žádná pravidla. Přidejte jedno pro začátek.",
+    "logsTitle": "Historie hlasových hovorů",
+    "emptyLogs": "Zatím žádné hlasové hovory."
   }
 }

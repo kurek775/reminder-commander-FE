@@ -44,5 +44,13 @@ export const routes: Routes = [
         (m) => m.RulesListComponent,
       ),
   },
+  {
+    path: 'warlord',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/warlord/warlord.component').then(
+        (m) => m.WarlordComponent,
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];
