@@ -15,14 +15,14 @@ const translocoTesting = TranslocoTestingModule.forRoot({
 } as TranslocoTestingOptions);
 
 describe('CallbackComponent', () => {
-  let authService: { handleCallback: ReturnType<typeof vi.fn> };
+  let authService: { exchangeCode: ReturnType<typeof vi.fn> };
   let router: { navigate: ReturnType<typeof vi.fn> };
   let activatedRoute: { snapshot: { queryParamMap: { get: ReturnType<typeof vi.fn> } } };
 
-  const setup = async (token: string | null) => {
-    authService = { handleCallback: vi.fn().mockResolvedValue(undefined) };
+  const setup = async (code: string | null) => {
+    authService = { exchangeCode: vi.fn().mockResolvedValue(undefined) };
     router = { navigate: vi.fn().mockResolvedValue(true) };
-    activatedRoute = { snapshot: { queryParamMap: { get: vi.fn().mockReturnValue(token) } } };
+    activatedRoute = { snapshot: { queryParamMap: { get: vi.fn().mockReturnValue(code) } } };
 
     await TestBed.configureTestingModule({
       imports: [CallbackComponent, translocoTesting],
@@ -36,16 +36,16 @@ describe('CallbackComponent', () => {
     return TestBed.createComponent(CallbackComponent);
   };
 
-  it('should call handleCallback and navigate to /profile when token present', async () => {
-    const fixture = await setup('test-jwt-token');
+  it('should call exchangeCode and navigate to /profile when code present', async () => {
+    const fixture = await setup('test-auth-code');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(authService.handleCallback).toHaveBeenCalledWith('test-jwt-token');
+    expect(authService.exchangeCode).toHaveBeenCalledWith('test-auth-code');
     expect(router.navigate).toHaveBeenCalledWith(['/profile']);
   });
 
-  it('should navigate to /login when no token', async () => {
+  it('should navigate to /login when no code', async () => {
     const fixture = await setup(null);
     fixture.detectChanges();
 

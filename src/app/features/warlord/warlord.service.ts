@@ -23,8 +23,11 @@ export class WarlordService {
   private readonly interactionsUrl = `${environment.apiUrl}/api/v1/interactions`;
 
   async getWarlordRules(): Promise<TrackerRule[]> {
-    const all = await firstValueFrom(this.http.get<TrackerRule[]>(`${this.rulesUrl}/`));
-    return all.filter((r) => r.rule_type === 'warlord');
+    return firstValueFrom(
+      this.http.get<TrackerRule[]>(`${this.rulesUrl}/`, {
+        params: { rule_type: 'warlord' },
+      }),
+    );
   }
 
   async createWarlordRule(payload: {
@@ -49,12 +52,15 @@ export class WarlordService {
   }
 
   async debugRule(ruleId: string): Promise<{ today: string; raw_rows: string[][]; missed_tasks: { row: number; task: string; deadline: string }[] }> {
-    return firstValueFrom(this.http.get<any>(`${this.warlordUrl}/debug/${ruleId}`));
+    return firstValueFrom(this.http.get<{ today: string; raw_rows: string[][]; missed_tasks: { row: number; task: string; deadline: string }[] }>(`${this.warlordUrl}/debug/${ruleId}`));
   }
 
-  async updatePrompt(ruleId: string, promptText: string): Promise<TrackerRule> {
+  async updateRule(
+    ruleId: string,
+    data: Partial<Pick<TrackerRule, 'name' | 'cron_schedule' | 'prompt_text' | 'is_active'>>,
+  ): Promise<TrackerRule> {
     return firstValueFrom(
-      this.http.patch<TrackerRule>(`${this.rulesUrl}/${ruleId}`, { prompt_text: promptText }),
+      this.http.patch<TrackerRule>(`${this.rulesUrl}/${ruleId}`, data),
     );
   }
 

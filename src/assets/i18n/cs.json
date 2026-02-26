@@ -7,7 +7,48 @@
     "sheets": "Tabulky",
     "rules": "Pravidla",
     "warlord": "Velitel",
+    "dashboard": "Přehled",
     "logout": "Odhlásit se"
+  },
+  "shared": {
+    "confirm": "Potvrdit",
+    "cancel": "Zrušit",
+    "close": "Zavřít",
+    "undo": "Zpět",
+    "loading": "Načítání..."
+  },
+  "toast": {
+    "ruleCreated": "Pravidlo vytvořeno.",
+    "ruleSaved": "Pravidlo aktualizováno.",
+    "ruleDeleted": "Pravidlo smazáno.",
+    "ruleDeleteUndo": "Pravidlo smazáno. Klikněte zpět pro obnovení.",
+    "ruleToggled": "Pravidlo {{state}}.",
+    "rulePaused": "pozastaveno",
+    "ruleResumed": "obnoveno",
+    "phoneSaved": "Telefon úspěšně propojen!",
+    "triggerSuccess": "Sken spuštěn! Telefon by měl brzy zazvonit.",
+    "createFailed": "Nepodařilo se vytvořit. Zkuste to prosím znovu.",
+    "saveFailed": "Nepodařilo se uložit. Zkuste to prosím znovu.",
+    "deleteFailed": "Nepodařilo se smazat. Zkuste to prosím znovu.",
+    "phoneFailed": "Propojení telefonu selhalo. Zkuste to prosím znovu.",
+    "phoneAlreadyTaken": "Toto telefonní číslo je již propojeno s jiným účtem.",
+    "triggerFailed": "Spuštění selhalo. Zkuste to prosím znovu."
+  },
+  "dashboard": {
+    "title": "Přehled",
+    "welcome": "Vítejte zpět!",
+    "sheetsConnected": "Propojené tabulky",
+    "trackerRules": "Pravidla trackeru",
+    "warlordRules": "Pravidla velitele",
+    "recentActivity": "Nedávná aktivita",
+    "noActivity": "Zatím žádná aktivita.",
+    "setupTitle": "Začínáme",
+    "setupHint": "Dokončete tyto kroky pro příjem připomínek.",
+    "stepGoogle": "Google účet propojen",
+    "stepWhatsapp": "WhatsApp číslo propojeno",
+    "stepSheet": "První tabulka propojena",
+    "stepRule": "První pravidlo vytvořeno",
+    "allSetup": "Vše je nastaveno!"
   },
   "health": {
     "loading": "Kontrola zdraví backendu...",
@@ -30,7 +71,9 @@
       "phonePlaceholder": "+420123456789",
       "linkPhoneButton": "Propojit telefon",
       "phoneSaved": "Telefon úspěšně propojen!",
-      "phoneAlreadyTaken": "Toto telefonní číslo je již propojeno s jiným účtem."
+      "phoneAlreadyTaken": "Toto telefonní číslo je již propojeno s jiným účtem.",
+      "phoneLinkFailed": "Propojení telefonu selhalo. Zkuste to prosím znovu.",
+      "whatsappHint": "Propojte svůj WhatsApp pro příjem připomínek."
     }
   },
   "sheets": {
@@ -38,7 +81,8 @@
     "empty": "Zatím žádné tabulky.",
     "connectButton": "Připojit Google Tabulku",
     "urlPlaceholder": "Vložte URL Google Tabulky...",
-    "connecting": "Připojování..."
+    "connecting": "Připojování...",
+    "loadError": "Nepodařilo se načíst tabulky."
   },
   "rules": {
     "title": "Pravidla trackeru",
@@ -53,7 +97,16 @@
     "save": "Uložit pravidlo",
     "saving": "Ukládání...",
     "delete": "Smazat",
+    "edit": "Upravit pravidlo",
+    "saveEdit": "Uložit",
     "empty": "Zatím žádná pravidla trackeru.",
+    "emptyHint": "Vytvořte první pravidlo trackeru pro sledování zdravotních metrik z Google Tabulek.",
+    "createFailed": "Nepodařilo se vytvořit pravidlo. Zkuste to prosím znovu.",
+    "saveFailed": "Nepodařilo se uložit. Zkuste to prosím znovu.",
+    "deleteFailed": "Nepodařilo se smazat pravidlo. Zkuste to prosím znovu.",
+    "deleteConfirm": "Opravdu chcete smazat toto pravidlo?",
+    "deleteTitle": "Smazat pravidlo",
+    "paused": "Pozastaveno",
     "scheduleDaily": "Jednou denně",
     "scheduleWeekly": "Jednou týdně",
     "scheduleHourly": "Každých N hodin",
@@ -87,9 +140,24 @@
     "saveEdit": "Uložit",
     "promptPlaceholder": "Skript hlasového hovoru... použijte {task_name} a {deadline}. Prázdné = výchozí zpráva.",
     "promptHint": "Zástupné znaky: {task_name}, {deadline}. Prázdné = výchozí zpráva.",
+    "insertPlaceholder": "Vložit zástupný znak:",
     "rulesTitle": "Aktivní pravidla",
     "emptyRules": "Zatím žádná pravidla. Přidejte jedno pro začátek.",
+    "emptyRulesHint": "Vytvořte pravidlo velitele pro příjem hlasových hovorů při nesplněných úkolech.",
     "logsTitle": "Historie hlasových hovorů",
-    "emptyLogs": "Zatím žádné hlasové hovory."
+    "emptyLogs": "Zatím žádné hlasové hovory.",
+    "createFailed": "Nepodařilo se vytvořit pravidlo. Zkuste to prosím znovu.",
+    "saveFailed": "Nepodařilo se uložit. Zkuste to prosím znovu.",
+    "deleteFailed": "Nepodařilo se smazat pravidlo.",
+    "deleteConfirm": "Opravdu chcete smazat toto pravidlo?",
+    "deleteTitle": "Smazat pravidlo",
+    "paused": "Pozastaveno",
+    "debugLoading": "Načítání dat z tabulky...",
+    "debugToday": "Dnes:",
+    "debugMissedFound": "promeškaných úkolů nalezeno — spuštění by mělo fungovat",
+    "debugNoMissed": "Žádné promeškané úkoly. Surové řádky níže:",
+    "debugSheetEmpty": "Tabulka je prázdná nebo nečitelná.",
+    "debugExpected": "Očekávané: Sl. A = název úkolu · Sl. B = datum YYYY-MM-DD · Sl. C = FALSE (prošlé datum, nesplněno)",
+    "debugCheckSheet": "Zkontrolovat tabulku"
   }
 }

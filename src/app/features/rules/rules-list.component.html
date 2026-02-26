@@ -1,5 +1,5 @@
-<div class="max-w-3xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
+<div class="max-w-3xl mx-auto px-6 py-10">
+  <div class="flex items-center justify-between mb-8">
     <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
       {{ 'rules.title' | transloco }}
     </h1>
@@ -11,26 +11,26 @@
   </div>
 
   @if (showForm()) {
-    <div class="mb-6 p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+    <div class="mb-8 p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
       <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
         {{ 'rules.createTitle' | transloco }}
       </h2>
 
-      <div class="space-y-3">
+      <div class="space-y-4">
         <!-- Rule name -->
         <input
           type="text"
           [ngModel]="formName()"
           (ngModelChange)="formName.set($event)"
           [placeholder]="'rules.namePlaceholder' | transloco"
-          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
         <!-- Sheet selection -->
         <select
           [ngModel]="formSheetId()"
           (ngModelChange)="onSheetChange($event)"
-          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="">{{ 'rules.selectSheet' | transloco }}</option>
           @for (sheet of sheets(); track sheet.id) {
             <option [value]="sheet.id">{{ sheet.sheet_name }}</option>
@@ -43,7 +43,7 @@
             <select
               [ngModel]="formMetric()"
               (ngModelChange)="formMetric.set($event)"
-              class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
               <option value="">{{ 'rules.selectMetric' | transloco }}</option>
               @for (header of sheetHeaders(); track header.column) {
                 <option [value]="header.name">{{ header.name }} ({{ header.column }})</option>
@@ -58,7 +58,7 @@
         <select
           [ngModel]="scheduleType()"
           (ngModelChange)="scheduleType.set($event)"
-          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="daily">{{ 'rules.scheduleDaily' | transloco }}</option>
           <option value="weekly">{{ 'rules.scheduleWeekly' | transloco }}</option>
           <option value="hourly">{{ 'rules.scheduleHourly' | transloco }}</option>
@@ -68,7 +68,7 @@
           <select
             [ngModel]="scheduleHour()"
             (ngModelChange)="scheduleHour.set(+$event)"
-            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
             @for (h of hourOptions; track h) {
               <option [value]="h">{{ padHour(h) }}</option>
             }
@@ -79,7 +79,7 @@
           <select
             [ngModel]="scheduleDay()"
             (ngModelChange)="scheduleDay.set(+$event)"
-            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <option [value]="1">{{ 'rules.days.1' | transloco }}</option>
             <option [value]="2">{{ 'rules.days.2' | transloco }}</option>
             <option [value]="3">{{ 'rules.days.3' | transloco }}</option>
@@ -94,7 +94,7 @@
           <select
             [ngModel]="scheduleInterval()"
             (ngModelChange)="scheduleInterval.set(+$event)"
-            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
             @for (i of intervalOptions; track i) {
               <option [value]="i">{{ i }}h</option>
             }
@@ -107,7 +107,7 @@
           (ngModelChange)="formPromptText.set($event)"
           [placeholder]="'rules.promptPlaceholder' | transloco"
           rows="3"
-          class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
         ></textarea>
 
         @if (errorMessage()) {
@@ -117,39 +117,162 @@
         <button
           (click)="onCreateRule()"
           [disabled]="!isFormValid() || isLoading()"
-          class="w-full px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          class="w-full px-5 py-2.5 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
           {{ isLoading() ? ('rules.saving' | transloco) : ('rules.save' | transloco) }}
         </button>
       </div>
     </div>
   }
 
-  @if (rules().length === 0 && !isLoading()) {
-    <p class="text-sm text-gray-500 dark:text-gray-400">
-      {{ 'rules.empty' | transloco }}
-    </p>
-  }
+  @if (isLoading()) {
+    <app-skeleton [count]="3" />
+  } @else if (rules().length === 0) {
+    <div class="bg-white dark:bg-gray-900 rounded-2xl ring-1 ring-gray-200 dark:ring-gray-800 shadow-sm p-12 text-center">
+      <div class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+      </div>
+      <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'rules.empty' | transloco }}</p>
+      <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">{{ 'rules.emptyHint' | transloco }}</p>
+    </div>
+  } @else {
+    <ul class="space-y-4">
+      @for (rule of rules(); track rule.id) {
+        <li class="p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm transition-opacity"
+            [class.opacity-60]="!rule.is_active">
+          @if (editingRuleId() === rule.id) {
+            <!-- Inline edit form -->
+            <div class="space-y-4">
+              <input
+                type="text"
+                [ngModel]="editingName()"
+                (ngModelChange)="editingName.set($event)"
+                [placeholder]="'rules.namePlaceholder' | transloco"
+                class="w-full px-4 py-2.5 text-sm border border-indigo-400 dark:border-indigo-500 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
 
-  <ul class="space-y-3">
-    @for (rule of rules(); track rule.id) {
-      <li class="p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex items-start justify-between gap-4">
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ rule.name }}</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ cronToHuman(rule.cron_schedule) }}</p>
-          @if (rule.metric_name) {
-            <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">{{ rule.metric_name }} (col {{ rule.target_column }})</p>
+              <select
+                [ngModel]="editingScheduleType()"
+                (ngModelChange)="editingScheduleType.set($event)"
+                class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="daily">{{ 'rules.scheduleDaily' | transloco }}</option>
+                <option value="weekly">{{ 'rules.scheduleWeekly' | transloco }}</option>
+                <option value="hourly">{{ 'rules.scheduleHourly' | transloco }}</option>
+              </select>
+
+              @if (editingScheduleType() === 'daily' || editingScheduleType() === 'weekly') {
+                <select
+                  [ngModel]="editingScheduleHour()"
+                  (ngModelChange)="editingScheduleHour.set(+$event)"
+                  class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  @for (h of hourOptions; track h) {
+                    <option [value]="h">{{ padHour(h) }}</option>
+                  }
+                </select>
+              }
+
+              @if (editingScheduleType() === 'weekly') {
+                <select
+                  [ngModel]="editingScheduleDay()"
+                  (ngModelChange)="editingScheduleDay.set(+$event)"
+                  class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option [value]="1">{{ 'rules.days.1' | transloco }}</option>
+                  <option [value]="2">{{ 'rules.days.2' | transloco }}</option>
+                  <option [value]="3">{{ 'rules.days.3' | transloco }}</option>
+                  <option [value]="4">{{ 'rules.days.4' | transloco }}</option>
+                  <option [value]="5">{{ 'rules.days.5' | transloco }}</option>
+                  <option [value]="6">{{ 'rules.days.6' | transloco }}</option>
+                  <option [value]="0">{{ 'rules.days.0' | transloco }}</option>
+                </select>
+              }
+
+              @if (editingScheduleType() === 'hourly') {
+                <select
+                  [ngModel]="editingScheduleInterval()"
+                  (ngModelChange)="editingScheduleInterval.set(+$event)"
+                  class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  @for (i of intervalOptions; track i) {
+                    <option [value]="i">{{ i }}h</option>
+                  }
+                </select>
+              }
+
+              <textarea
+                [ngModel]="editingPromptText()"
+                (ngModelChange)="editingPromptText.set($event)"
+                [placeholder]="'rules.promptPlaceholder' | transloco"
+                rows="3"
+                class="w-full px-4 py-2.5 text-sm border border-indigo-400 dark:border-indigo-500 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              ></textarea>
+
+              <div class="flex gap-3">
+                <button
+                  (click)="onSaveEdit(rule.id)"
+                  class="px-3 py-1.5 text-xs font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors">
+                  {{ 'rules.saveEdit' | transloco }}
+                </button>
+                <button
+                  (click)="onCancelEdit()"
+                  class="px-3 py-1.5 text-xs font-medium rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  {{ 'rules.cancel' | transloco }}
+                </button>
+              </div>
+            </div>
+          } @else {
+            <!-- Read-only display -->
+            <div class="flex items-start justify-between gap-5">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ rule.name }}</p>
+                  @if (!rule.is_active) {
+                    <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                      {{ 'rules.paused' | transloco }}
+                    </span>
+                  }
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ rule.cron_schedule | cronToHuman }}</p>
+                @if (rule.metric_name) {
+                  <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">{{ rule.metric_name }} (col {{ rule.target_column }})</p>
+                }
+                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ rule.prompt_text }}</p>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <!-- Toggle active -->
+                <button
+                  (click)="onToggleActive(rule)"
+                  [title]="rule.is_active ? 'Pause' : 'Resume'"
+                  class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  [class]="rule.is_active ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-gray-200 dark:bg-gray-700'"
+                  role="switch"
+                  [attr.aria-checked]="rule.is_active">
+                  <span
+                    class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200"
+                    [class]="rule.is_active ? 'translate-x-4' : 'translate-x-0'"></span>
+                </button>
+                <button
+                  (click)="onEditRule(rule)"
+                  [title]="'rules.edit' | transloco"
+                  [attr.aria-label]="('rules.edit' | transloco) + ': ' + rule.name"
+                  class="flex-shrink-0 p-1.5 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </button>
+                <button
+                  (click)="onDeleteRule(rule.id)"
+                  [title]="'rules.delete' | transloco"
+                  [attr.aria-label]="('rules.delete' | transloco) + ': ' + rule.name"
+                  class="flex-shrink-0 p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           }
-          <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ rule.prompt_text }}</p>
-        </div>
-        <button
-          (click)="onDeleteRule(rule.id)"
-          [title]="'rules.delete' | transloco"
-          class="flex-shrink-0 p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
-      </li>
-    }
-  </ul>
+        </li>
+      }
+    </ul>
+  }
 </div>

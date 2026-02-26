@@ -1,14 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
+import { firstValueFrom } from 'rxjs';
 import { HealthService, HealthResponse } from './health.service';
 
 @Component({
   selector: 'app-health',
-  standalone: true,
   imports: [CommonModule, TranslocoModule],
   templateUrl: './health.component.html',
-  styleUrl: './health.component.scss',
 })
 export class HealthComponent implements OnInit {
   isLoading = signal(true);
@@ -17,16 +16,14 @@ export class HealthComponent implements OnInit {
 
   private readonly healthService = inject(HealthService);
 
-  ngOnInit(): void {
-    this.healthService.getHealth().subscribe({
-      next: (data) => {
-        this.health.set(data);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        this.errorMessage.set(err.message ?? 'Failed to connect to backend.');
-        this.isLoading.set(false);
-      },
-    });
+  async ngOnInit(): Promise<void> {
+    try {
+      const data = await firstValueFrom(this.healthService.getHealth());
+      this.health.set(data);
+    } catch (err) {
+      this.errorMessage.set((err as Error).message ?? 'Failed to connect to backend.');
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }

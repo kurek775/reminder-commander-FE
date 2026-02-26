@@ -5,10 +5,8 @@ import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [TranslocoModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   private readonly authService = inject(AuthService);

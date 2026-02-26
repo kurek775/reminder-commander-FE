@@ -5,6 +5,7 @@ import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transl
 
 import { ProfileComponent } from './profile.component';
 import { AuthService, UserResponse } from '../../../core/auth/auth.service';
+import { ToastService } from '../../../shared/toast/toast.service';
 import en from '../../../../assets/i18n/en.json';
 import cs from '../../../../assets/i18n/cs.json';
 
@@ -28,6 +29,7 @@ describe('ProfileComponent', () => {
     me: ReturnType<typeof vi.fn>;
     linkWhatsapp: ReturnType<typeof vi.fn>;
   };
+  let toastService: { success: ReturnType<typeof vi.fn>; error: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     authService = {
@@ -35,10 +37,14 @@ describe('ProfileComponent', () => {
       me: vi.fn().mockResolvedValue(undefined),
       linkWhatsapp: vi.fn().mockResolvedValue(undefined),
     };
+    toastService = { success: vi.fn(), error: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [ProfileComponent, translocoTesting],
-      providers: [{ provide: AuthService, useValue: authService }],
+      providers: [
+        { provide: AuthService, useValue: authService },
+        { provide: ToastService, useValue: toastService },
+      ],
     }).compileComponents();
   });
 
@@ -73,6 +79,7 @@ describe('ProfileComponent', () => {
     fixture.componentInstance.phone.set('+48123456789');
     await fixture.componentInstance.onLinkWhatsapp();
     expect(authService.me).toHaveBeenCalled();
+    expect(toastService.success).toHaveBeenCalled();
   });
 
   it('should show error on 409 duplicate phone', async () => {
@@ -83,6 +90,7 @@ describe('ProfileComponent', () => {
     expect(fixture.componentInstance.errorMessage()).toBe(
       'This phone number is already linked to another account.',
     );
+    expect(toastService.error).toHaveBeenCalled();
   });
 
   it('should clear errorMessage on successful link', async () => {

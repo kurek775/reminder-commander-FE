@@ -6,7 +6,6 @@ import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-callback',
-  standalone: true,
   imports: [TranslocoModule],
   templateUrl: './callback.component.html',
 })
@@ -16,9 +15,9 @@ export class CallbackComponent implements OnInit {
   private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
-    const token = this.route.snapshot.queryParamMap.get('token');
-    if (token) {
-      this.authService.handleCallback(token).then(() => {
+    const code = this.route.snapshot.queryParamMap.get('code');
+    if (code) {
+      this.authService.exchangeCode(code).then(() => {
         this.router.navigate(['/profile']);
       });
     } else {

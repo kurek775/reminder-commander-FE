@@ -7,10 +7,8 @@ import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-connect-sheet',
-  standalone: true,
   imports: [TranslocoModule],
   templateUrl: './connect-sheet.component.html',
-  styleUrl: './connect-sheet.component.scss',
 })
 export class ConnectSheetComponent {
   private readonly http = inject(HttpClient);

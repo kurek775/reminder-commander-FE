@@ -41,12 +41,20 @@ export class RulesService {
   private readonly apiUrl = `${environment.apiUrl}/api/v1/rules`;
   private readonly sheetsApiUrl = `${environment.apiUrl}/api/v1/sheets`;
 
-  async getRules(): Promise<TrackerRule[]> {
-    return firstValueFrom(this.http.get<TrackerRule[]>(`${this.apiUrl}/`));
+  async getRules(ruleType?: string): Promise<TrackerRule[]> {
+    const options = ruleType ? { params: { rule_type: ruleType } } : {};
+    return firstValueFrom(this.http.get<TrackerRule[]>(`${this.apiUrl}/`, options));
   }
 
   async createRule(payload: CreateRulePayload): Promise<TrackerRule> {
     return firstValueFrom(this.http.post<TrackerRule>(`${this.apiUrl}/`, payload));
+  }
+
+  async updateRule(
+    ruleId: string,
+    data: Partial<Pick<TrackerRule, 'name' | 'cron_schedule' | 'prompt_text' | 'is_active'>>,
+  ): Promise<TrackerRule> {
+    return firstValueFrom(this.http.patch<TrackerRule>(`${this.apiUrl}/${ruleId}`, data));
   }
 
   async deleteRule(ruleId: string): Promise<void> {

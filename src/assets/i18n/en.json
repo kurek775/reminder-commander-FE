@@ -7,7 +7,48 @@
     "sheets": "Sheets",
     "rules": "Rules",
     "warlord": "Warlord",
+    "dashboard": "Dashboard",
     "logout": "Log out"
+  },
+  "shared": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close",
+    "undo": "Undo",
+    "loading": "Loading..."
+  },
+  "toast": {
+    "ruleCreated": "Rule created successfully.",
+    "ruleSaved": "Rule updated successfully.",
+    "ruleDeleted": "Rule deleted.",
+    "ruleDeleteUndo": "Rule deleted. Click undo to restore.",
+    "ruleToggled": "Rule {{state}}.",
+    "rulePaused": "paused",
+    "ruleResumed": "resumed",
+    "phoneSaved": "Phone linked successfully!",
+    "triggerSuccess": "Scan triggered! Your phone should ring shortly.",
+    "createFailed": "Failed to create. Please try again.",
+    "saveFailed": "Failed to save. Please try again.",
+    "deleteFailed": "Failed to delete. Please try again.",
+    "phoneFailed": "Failed to link phone. Please try again.",
+    "phoneAlreadyTaken": "This phone number is already linked to another account.",
+    "triggerFailed": "Failed to trigger scan. Please try again."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back!",
+    "sheetsConnected": "Sheets Connected",
+    "trackerRules": "Tracker Rules",
+    "warlordRules": "Warlord Rules",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity yet.",
+    "setupTitle": "Get Started",
+    "setupHint": "Complete these steps to start receiving reminders.",
+    "stepGoogle": "Google account connected",
+    "stepWhatsapp": "WhatsApp number linked",
+    "stepSheet": "First sheet connected",
+    "stepRule": "First rule created",
+    "allSetup": "You're all set up!"
   },
   "health": {
     "loading": "Checking backend health...",
@@ -30,7 +71,9 @@
       "phonePlaceholder": "+48123456789",
       "linkPhoneButton": "Link Phone",
       "phoneSaved": "Phone linked successfully!",
-      "phoneAlreadyTaken": "This phone number is already linked to another account."
+      "phoneAlreadyTaken": "This phone number is already linked to another account.",
+      "phoneLinkFailed": "Failed to link phone. Please try again.",
+      "whatsappHint": "Link your WhatsApp number to receive reminders."
     }
   },
   "sheets": {
@@ -38,7 +81,8 @@
     "empty": "No sheets connected yet.",
     "connectButton": "Connect a Google Sheet",
     "urlPlaceholder": "Paste Google Sheet URL...",
-    "connecting": "Connecting..."
+    "connecting": "Connecting...",
+    "loadError": "Failed to load sheets."
   },
   "rules": {
     "title": "Tracker Rules",
@@ -53,7 +97,16 @@
     "save": "Save Rule",
     "saving": "Saving...",
     "delete": "Delete",
+    "edit": "Edit rule",
+    "saveEdit": "Save",
     "empty": "No tracker rules yet.",
+    "emptyHint": "Create your first tracker rule to start monitoring health metrics from your Google Sheets.",
+    "createFailed": "Failed to create rule. Please try again.",
+    "saveFailed": "Failed to save. Please try again.",
+    "deleteFailed": "Failed to delete rule. Please try again.",
+    "deleteConfirm": "Are you sure you want to delete this rule?",
+    "deleteTitle": "Delete Rule",
+    "paused": "Paused",
     "scheduleDaily": "Once a day",
     "scheduleWeekly": "Once a week",
     "scheduleHourly": "Every N hours",
@@ -87,9 +140,24 @@
     "saveEdit": "Save",
     "promptPlaceholder": "Voice call script... use {task_name} and {deadline} as placeholders. Leave empty for default.",
     "promptHint": "Placeholders: {task_name}, {deadline}. Leave blank to use the default message.",
+    "insertPlaceholder": "Insert placeholder:",
     "rulesTitle": "Active Rules",
     "emptyRules": "No warlord rules yet. Add one to get started.",
+    "emptyRulesHint": "Create a warlord rule to receive voice calls when tasks are overdue in your Google Sheets.",
     "logsTitle": "Voice Call History",
-    "emptyLogs": "No voice calls logged yet."
+    "emptyLogs": "No voice calls logged yet.",
+    "createFailed": "Failed to create rule. Please try again.",
+    "saveFailed": "Failed to save. Please try again.",
+    "deleteFailed": "Failed to delete rule.",
+    "deleteConfirm": "Are you sure you want to delete this rule?",
+    "deleteTitle": "Delete Rule",
+    "paused": "Paused",
+    "debugLoading": "Loading sheet data...",
+    "debugToday": "Today:",
+    "debugMissedFound": "missed task(s) found — trigger should work",
+    "debugNoMissed": "No missed tasks found. Raw rows below:",
+    "debugSheetEmpty": "Sheet appears empty or unreadable.",
+    "debugExpected": "Expected: Col A = task name · Col B = YYYY-MM-DD date · Col C = FALSE (past date, unchecked)",
+    "debugCheckSheet": "Check sheet"
   }
 }

@@ -4,7 +4,8 @@ import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
 
-import { SheetsListComponent, SheetIntegration } from './sheets-list.component';
+import { SheetsListComponent } from './sheets-list.component';
+import { SheetIntegration } from '../../../shared/models';
 import en from '../../../../assets/i18n/en.json';
 import cs from '../../../../assets/i18n/cs.json';
 

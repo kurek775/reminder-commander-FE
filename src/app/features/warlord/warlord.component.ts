@@ -1,19 +1,30 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
 import { WarlordService, InteractionLog } from './warlord.service';
 import { TrackerRule } from '../rules/rules.service';
-import { SheetIntegration } from '../sheets/sheets-list/sheets-list.component';
+import { SheetIntegration } from '../../shared/models';
+import {
+  buildCron,
+  HOUR_OPTIONS,
+  INTERVAL_OPTIONS,
+  padHour,
+  parseCron,
+  ScheduleType,
+} from '../../shared/cron-utils';
+import { CronToHumanPipe } from '../../shared/cron-to-human.pipe';
+import { ToastService } from '../../shared/toast/toast.service';
+import { ConfirmModalService } from '../../shared/confirm-modal/confirm-modal.service';
+import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-warlord',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslocoModule],
+  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent],
   templateUrl: './warlord.component.html',
 })
 export class WarlordComponent implements OnInit {
@@ -30,62 +41,59 @@ export class WarlordComponent implements OnInit {
   formSheetId = signal('');
   formPromptText = signal('');
   editingRuleId = signal<string | null>(null);
+  editingName = signal('');
   editingPromptText = signal('');
+  editingScheduleType = signal<ScheduleType>('daily');
+  editingScheduleHour = signal(8);
+  editingScheduleDay = signal(1);
+  editingScheduleInterval = signal(3);
+
+  editingCron = computed(() =>
+    buildCron(
+      this.editingScheduleType(),
+      this.editingScheduleHour(),
+      this.editingScheduleDay(),
+      this.editingScheduleInterval(),
+    ),
+  );
   debugRuleId = signal<string | null>(null);
   debugResult = signal<{ today: string; raw_rows: string[][]; missed_tasks: { row: number; task: string; deadline: string }[] } | null>(null);
-  scheduleType = signal<'daily' | 'weekly' | 'hourly'>('daily');
+  scheduleType = signal<ScheduleType>('daily');
   scheduleHour = signal(8);
   scheduleDay = signal(1);
   scheduleInterval = signal(3);
 
-  cronExpression = computed(() => {
-    switch (this.scheduleType()) {
-      case 'daily':
-        return `0 ${this.scheduleHour()} * * *`;
-      case 'weekly':
-        return `0 ${this.scheduleHour()} * * ${this.scheduleDay()}`;
-      case 'hourly':
-        return `0 */${this.scheduleInterval()} * * *`;
-    }
-  });
+  cronExpression = computed(() =>
+    buildCron(this.scheduleType(), this.scheduleHour(), this.scheduleDay(), this.scheduleInterval()),
+  );
 
   isFormValid = computed(
     () => this.formName().trim() !== '' && this.formSheetId().trim() !== '',
   );
 
-  readonly hourOptions = Array.from({ length: 24 }, (_, i) => i);
-  readonly intervalOptions = [1, 2, 3, 4, 6, 8, 12];
+  readonly hourOptions = HOUR_OPTIONS;
+  readonly intervalOptions = INTERVAL_OPTIONS;
+  readonly padHour = padHour;
 
   private readonly warlordService = inject(WarlordService);
   private readonly http = inject(HttpClient);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly transloco = inject(TranslocoService);
+  private readonly toast = inject(ToastService);
+  private readonly confirmModal = inject(ConfirmModalService);
   private readonly sheetsApiUrl = `${environment.apiUrl}/api/v1/sheets`;
+  private triggerTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     this.loadAll();
+    this.destroyRef.onDestroy(() => {
+      if (this.triggerTimeout) clearTimeout(this.triggerTimeout);
+    });
   }
 
   toggleForm(): void {
     this.showForm.update((v) => !v);
     this.errorMessage.set('');
-  }
-
-  padHour(h: number): string {
-    return String(h).padStart(2, '0') + ':00';
-  }
-
-  cronToHuman(cron: string): string {
-    let m: RegExpMatchArray | null;
-    if ((m = cron.match(/^0 (\d+) \* \* (\d)$/))) {
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      return `Every ${days[Number(m[2])]} at ${String(m[1]).padStart(2, '0')}:00`;
-    }
-    if ((m = cron.match(/^0 (\d+) \* \* \*$/))) {
-      return `Daily at ${String(m[1]).padStart(2, '0')}:00`;
-    }
-    if ((m = cron.match(/^0 \*\/(\d+) \* \* \*$/))) {
-      return `Every ${m[1]} hours`;
-    }
-    return cron;
   }
 
   async onCreateRule(): Promise<void> {
@@ -108,19 +116,35 @@ export class WarlordComponent implements OnInit {
       this.scheduleHour.set(8);
       this.scheduleDay.set(1);
       this.scheduleInterval.set(3);
+      this.toast.success(this.transloco.translate('toast.ruleCreated'));
     } catch {
-      this.errorMessage.set('Failed to create rule. Please try again.');
+      this.toast.error(this.transloco.translate('toast.createFailed'));
     } finally {
       this.isLoading.set(false);
     }
   }
 
   async onDeleteRule(ruleId: string): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: this.transloco.translate('warlord.deleteTitle'),
+      message: this.transloco.translate('warlord.deleteConfirm'),
+      danger: true,
+    });
+    if (!confirmed) return;
+    const removed = this.rules().find((r) => r.id === ruleId);
+    this.rules.update((list) => list.filter((r) => r.id !== ruleId));
+    let undone = false;
+    this.toast.undoable(this.transloco.translate('toast.ruleDeleteUndo'), () => {
+      undone = true;
+      if (removed) this.rules.update((list) => [...list, removed]);
+    });
+    await new Promise((r) => setTimeout(r, 5000));
+    if (undone) return;
     try {
       await this.warlordService.deleteRule(ruleId);
-      this.rules.update((list) => list.filter((r) => r.id !== ruleId));
     } catch {
-      this.errorMessage.set('Failed to delete rule.');
+      if (removed) this.rules.update((list) => [...list, removed]);
+      this.toast.error(this.transloco.translate('toast.deleteFailed'));
     }
   }
 
@@ -131,12 +155,14 @@ export class WarlordComponent implements OnInit {
     try {
       await this.warlordService.triggerScan();
       this.triggerMessage.set('warlord.triggered');
-      setTimeout(async () => {
+      this.toast.success(this.transloco.translate('toast.triggerSuccess'));
+      this.triggerTimeout = setTimeout(async () => {
         this.triggerMessage.set('');
         await this.loadLogs();
       }, 5000);
     } catch {
       this.triggerMessage.set('warlord.triggerFailed');
+      this.toast.error(this.transloco.translate('toast.triggerFailed'));
     } finally {
       this.isTriggering.set(false);
     }
@@ -160,23 +186,53 @@ export class WarlordComponent implements OnInit {
 
   onEditRule(rule: TrackerRule): void {
     this.editingRuleId.set(rule.id);
+    this.editingName.set(rule.name);
     this.editingPromptText.set(rule.prompt_text ?? '');
+    const parsed = parseCron(rule.cron_schedule);
+    this.editingScheduleType.set(parsed.type);
+    this.editingScheduleHour.set(parsed.hour);
+    this.editingScheduleDay.set(parsed.day);
+    this.editingScheduleInterval.set(parsed.interval);
   }
 
   onCancelEdit(): void {
     this.editingRuleId.set(null);
-    this.editingPromptText.set('');
   }
 
   async onSaveEdit(ruleId: string): Promise<void> {
     try {
-      const updated = await this.warlordService.updatePrompt(ruleId, this.editingPromptText());
+      const updated = await this.warlordService.updateRule(ruleId, {
+        name: this.editingName(),
+        cron_schedule: this.editingCron(),
+        prompt_text: this.editingPromptText(),
+      });
       this.rules.update((list) => list.map((r) => (r.id === ruleId ? updated : r)));
       this.editingRuleId.set(null);
-      this.editingPromptText.set('');
+      this.toast.success(this.transloco.translate('toast.ruleSaved'));
     } catch {
-      this.errorMessage.set('Failed to save. Please try again.');
+      this.toast.error(this.transloco.translate('toast.saveFailed'));
     }
+  }
+
+  async onToggleActive(rule: TrackerRule): Promise<void> {
+    try {
+      const updated = await this.warlordService.updateRule(rule.id, { is_active: !rule.is_active });
+      this.rules.update((list) => list.map((r) => (r.id === rule.id ? updated : r)));
+      const state = updated.is_active
+        ? this.transloco.translate('toast.ruleResumed')
+        : this.transloco.translate('toast.rulePaused');
+      this.toast.success(this.transloco.translate('toast.ruleToggled', { state }));
+    } catch {
+      this.toast.error(this.transloco.translate('toast.saveFailed'));
+    }
+  }
+
+  insertPlaceholder(placeholder: string): void {
+    this.formPromptText.update((text) => text + placeholder);
+  }
+
+  insertEditPlaceholder(placeholder: string): void {
+    this.editingPromptText.update((text) => text + placeholder);
   }
 
   private async loadAll(): Promise<void> {

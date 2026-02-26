@@ -16,6 +16,12 @@ export interface UserResponse {
   is_active: boolean;
 }
 
+interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   currentUser = signal<UserResponse | null>(null);
@@ -38,9 +44,29 @@ export class AuthService {
     window.location.href = response.auth_url;
   }
 
-  async handleCallback(token: string): Promise<void> {
-    this.tokenService.setTokens(token, '');
+  async exchangeCode(code: string): Promise<void> {
+    const tokens = await firstValueFrom(
+      this.http.post<TokenResponse>(`${this.apiUrl}/exchange`, { code }),
+    );
+    this.tokenService.setTokens(tokens.access_token, tokens.refresh_token);
     await this.me();
+  }
+
+  async refreshAccessToken(): Promise<boolean> {
+    const refreshToken = this.tokenService.getRefreshToken();
+    if (!refreshToken) return false;
+    try {
+      const tokens = await firstValueFrom(
+        this.http.post<TokenResponse>(`${this.apiUrl}/refresh`, {
+          refresh_token: refreshToken,
+        }),
+      );
+      this.tokenService.setTokens(tokens.access_token, tokens.refresh_token);
+      return true;
+    } catch {
+      this.tokenService.clearTokens();
+      return false;
+    }
   }
 
   async me(): Promise<void> {

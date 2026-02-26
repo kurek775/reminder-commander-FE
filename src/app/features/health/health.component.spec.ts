@@ -52,6 +52,7 @@ describe('HealthComponent', () => {
     getHealthMock.mockReturnValue(of(mockHealth));
     fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain(mockHealth.message);

@@ -3,16 +3,28 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
 import { RulesService, SheetColumnHeader, TrackerRule } from './rules.service';
-import { SheetIntegration } from '../sheets/sheets-list/sheets-list.component';
+import { SheetIntegration } from '../../shared/models';
+import {
+  buildCron,
+  cronToHuman,
+  HOUR_OPTIONS,
+  INTERVAL_OPTIONS,
+  padHour,
+  parseCron,
+  ScheduleType,
+} from '../../shared/cron-utils';
+import { CronToHumanPipe } from '../../shared/cron-to-human.pipe';
+import { ToastService } from '../../shared/toast/toast.service';
+import { ConfirmModalService } from '../../shared/confirm-modal/confirm-modal.service';
+import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-rules-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslocoModule],
+  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent],
   templateUrl: './rules-list.component.html',
 })
 export class RulesListComponent implements OnInit {
@@ -28,21 +40,31 @@ export class RulesListComponent implements OnInit {
   formMetric = signal('');
   formPromptText = signal('');
 
-  scheduleType = signal<'daily' | 'weekly' | 'hourly'>('daily');
+  scheduleType = signal<ScheduleType>('daily');
   scheduleHour = signal(8);
   scheduleDay = signal(1);
   scheduleInterval = signal(3);
 
-  cronExpression = computed(() => {
-    switch (this.scheduleType()) {
-      case 'daily':
-        return `0 ${this.scheduleHour()} * * *`;
-      case 'weekly':
-        return `0 ${this.scheduleHour()} * * ${this.scheduleDay()}`;
-      case 'hourly':
-        return `0 */${this.scheduleInterval()} * * *`;
-    }
-  });
+  cronExpression = computed(() =>
+    buildCron(this.scheduleType(), this.scheduleHour(), this.scheduleDay(), this.scheduleInterval()),
+  );
+
+  editingRuleId = signal<string | null>(null);
+  editingName = signal('');
+  editingPromptText = signal('');
+  editingScheduleType = signal<ScheduleType>('daily');
+  editingScheduleHour = signal(8);
+  editingScheduleDay = signal(1);
+  editingScheduleInterval = signal(3);
+
+  editingCron = computed(() =>
+    buildCron(
+      this.editingScheduleType(),
+      this.editingScheduleHour(),
+      this.editingScheduleDay(),
+      this.editingScheduleInterval(),
+    ),
+  );
 
   isFormValid = computed(
     () =>
@@ -52,11 +74,15 @@ export class RulesListComponent implements OnInit {
       this.formPromptText().trim() !== '',
   );
 
-  readonly hourOptions = Array.from({ length: 24 }, (_, i) => i);
-  readonly intervalOptions = [1, 2, 3, 4, 6, 8, 12];
+  readonly hourOptions = HOUR_OPTIONS;
+  readonly intervalOptions = INTERVAL_OPTIONS;
+  readonly padHour = padHour;
 
   private readonly rulesService = inject(RulesService);
   private readonly http = inject(HttpClient);
+  private readonly transloco = inject(TranslocoService);
+  private readonly toast = inject(ToastService);
+  private readonly confirmModal = inject(ConfirmModalService);
   private readonly sheetsApiUrl = `${environment.apiUrl}/api/v1/sheets`;
 
   ngOnInit(): void {
@@ -78,25 +104,6 @@ export class RulesListComponent implements OnInit {
     if (sheetId) {
       this.loadSheetHeaders(sheetId);
     }
-  }
-
-  padHour(h: number): string {
-    return String(h).padStart(2, '0') + ':00';
-  }
-
-  cronToHuman(cron: string): string {
-    let m: RegExpMatchArray | null;
-    if ((m = cron.match(/^0 (\d+) \* \* (\d)$/))) {
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      return `Every ${days[Number(m[2])]} at ${String(m[1]).padStart(2, '0')}:00`;
-    }
-    if ((m = cron.match(/^0 (\d+) \* \* \*$/))) {
-      return `Daily at ${String(m[1]).padStart(2, '0')}:00`;
-    }
-    if ((m = cron.match(/^0 \*\/(\d+) \* \* \*$/))) {
-      return `Every ${m[1]} hours`;
-    }
-    return cron;
   }
 
   async onCreateRule(): Promise<void> {
@@ -127,26 +134,85 @@ export class RulesListComponent implements OnInit {
       this.scheduleHour.set(8);
       this.scheduleDay.set(1);
       this.scheduleInterval.set(3);
+      this.toast.success(this.transloco.translate('toast.ruleCreated'));
     } catch {
-      this.errorMessage.set('Failed to create rule. Please try again.');
+      this.toast.error(this.transloco.translate('toast.createFailed'));
     } finally {
       this.isLoading.set(false);
     }
   }
 
+  onEditRule(rule: TrackerRule): void {
+    this.editingRuleId.set(rule.id);
+    this.editingName.set(rule.name);
+    this.editingPromptText.set(rule.prompt_text ?? '');
+    const parsed = parseCron(rule.cron_schedule);
+    this.editingScheduleType.set(parsed.type);
+    this.editingScheduleHour.set(parsed.hour);
+    this.editingScheduleDay.set(parsed.day);
+    this.editingScheduleInterval.set(parsed.interval);
+  }
+
+  onCancelEdit(): void {
+    this.editingRuleId.set(null);
+  }
+
+  async onSaveEdit(ruleId: string): Promise<void> {
+    try {
+      const updated = await this.rulesService.updateRule(ruleId, {
+        name: this.editingName(),
+        cron_schedule: this.editingCron(),
+        prompt_text: this.editingPromptText(),
+      });
+      this.rules.update((list) => list.map((r) => (r.id === ruleId ? updated : r)));
+      this.editingRuleId.set(null);
+      this.toast.success(this.transloco.translate('toast.ruleSaved'));
+    } catch {
+      this.toast.error(this.transloco.translate('toast.saveFailed'));
+    }
+  }
+
   async onDeleteRule(ruleId: string): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: this.transloco.translate('rules.deleteTitle'),
+      message: this.transloco.translate('rules.deleteConfirm'),
+      danger: true,
+    });
+    if (!confirmed) return;
+    const removed = this.rules().find((r) => r.id === ruleId);
+    this.rules.update((list) => list.filter((r) => r.id !== ruleId));
+    let undone = false;
+    this.toast.undoable(this.transloco.translate('toast.ruleDeleteUndo'), () => {
+      undone = true;
+      if (removed) this.rules.update((list) => [...list, removed]);
+    });
+    await new Promise((r) => setTimeout(r, 5000));
+    if (undone) return;
     try {
       await this.rulesService.deleteRule(ruleId);
-      this.rules.update((list) => list.filter((r) => r.id !== ruleId));
     } catch {
-      this.errorMessage.set('Failed to delete rule. Please try again.');
+      if (removed) this.rules.update((list) => [...list, removed]);
+      this.toast.error(this.transloco.translate('toast.deleteFailed'));
+    }
+  }
+
+  async onToggleActive(rule: TrackerRule): Promise<void> {
+    try {
+      const updated = await this.rulesService.updateRule(rule.id, { is_active: !rule.is_active });
+      this.rules.update((list) => list.map((r) => (r.id === rule.id ? updated : r)));
+      const state = updated.is_active
+        ? this.transloco.translate('toast.ruleResumed')
+        : this.transloco.translate('toast.rulePaused');
+      this.toast.success(this.transloco.translate('toast.ruleToggled', { state }));
+    } catch {
+      this.toast.error(this.transloco.translate('toast.saveFailed'));
     }
   }
 
   private async loadRules(): Promise<void> {
     this.isLoading.set(true);
     try {
-      const data = await this.rulesService.getRules();
+      const data = await this.rulesService.getRules('health_tracker');
       this.rules.set(data);
     } finally {
       this.isLoading.set(false);

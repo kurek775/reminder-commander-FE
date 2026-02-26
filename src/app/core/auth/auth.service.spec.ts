@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let httpClient: { get: ReturnType<typeof vi.fn>; patch: ReturnType<typeof vi.fn> };
+  let httpClient: { get: ReturnType<typeof vi.fn>; post: ReturnType<typeof vi.fn>; patch: ReturnType<typeof vi.fn> };
   let tokenService: {
     setTokens: ReturnType<typeof vi.fn>;
     getAccessToken: ReturnType<typeof vi.fn>;
@@ -18,7 +18,7 @@ describe('AuthService', () => {
   };
 
   beforeEach(() => {
-    httpClient = { get: vi.fn(), patch: vi.fn() };
+    httpClient = { get: vi.fn(), post: vi.fn(), patch: vi.fn() };
     tokenService = {
       setTokens: vi.fn(),
       getAccessToken: vi.fn(),
