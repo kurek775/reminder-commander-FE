@@ -7,10 +7,11 @@ import { SheetIntegration, SheetPreview } from '../../../shared/models';
 import { SheetsService } from '../sheets.service';
 import { ConfirmModalService } from '../../../shared/confirm-modal/confirm-modal.service';
 import { ToastService } from '../../../shared/toast/toast.service';
+import { SkeletonComponent } from '../../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-sheets-list',
-  imports: [CommonModule, ConnectSheetComponent, TranslocoModule],
+  imports: [CommonModule, ConnectSheetComponent, TranslocoModule, SkeletonComponent],
   templateUrl: './sheets-list.component.html',
 })
 export class SheetsListComponent implements OnInit {

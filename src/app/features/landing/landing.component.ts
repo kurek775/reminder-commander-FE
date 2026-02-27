@@ -11,11 +11,15 @@ import { TokenService } from '../../core/auth/token.service';
   templateUrl: './landing.component.html',
   styles: `
     :host { display: block; }
-    .anim-fade-1 { @apply animate-fade-up; }
-    .anim-fade-2 { @apply animate-fade-up [animation-delay:0.15s]; }
-    .anim-fade-3 { @apply animate-fade-up [animation-delay:0.3s]; }
-    .anim-fade-4 { @apply animate-fade-up [animation-delay:0.45s]; }
-    .anim-fade-5 { @apply animate-fade-up [animation-duration:1s] [animation-delay:0.4s]; }
+    .anim-fade-1 { animation: fade-up 0.8s ease both; }
+    .anim-fade-2 { animation: fade-up 0.8s ease 0.15s both; }
+    .anim-fade-3 { animation: fade-up 0.8s ease 0.3s both; }
+    .anim-fade-4 { animation: fade-up 0.8s ease 0.45s both; }
+    .anim-fade-5 { animation: fade-up 1s ease 0.4s both; }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   `,
 })
 export class LandingComponent {

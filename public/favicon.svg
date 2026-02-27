@@ -1,20 +1,30 @@
 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="nb" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#06b6d4"/>
       <stop offset="50%" stop-color="#8b5cf6"/>
       <stop offset="100%" stop-color="#06b6d4"/>
     </linearGradient>
-    <linearGradient id="ng" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#fbbf24"/>
       <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
+    <linearGradient id="bridge" x1="0" y1="24" x2="64" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
   </defs>
-  <polygon points="32,8 52,18 52,38 32,48 12,38 12,18" fill="none" stroke="url(#nb)" stroke-width="2" opacity="0.3"/>
-  <line x1="32" y1="10" x2="32" y2="56" stroke="url(#nb)" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-  <line x1="26" y1="16" x2="26" y2="50" stroke="url(#nb)" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
-  <line x1="38" y1="16" x2="38" y2="50" stroke="url(#nb)" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
-  <polygon points="32,6 27,18 32,15 37,18" fill="url(#ng)"/>
-  <path d="M10,36 Q32,20 54,36" fill="none" stroke="url(#nb)" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="32" cy="6" r="2" fill="#fbbf24" opacity="0.8"/>
+  <!-- Rounded square background -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0f172a"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#bg)" stroke-width="1.5" opacity="0.5"/>
+  <!-- Bifrost bridge arc -->
+  <path d="M10,42 Q32,14 54,42" fill="none" stroke="url(#bridge)" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Bridge pillars -->
+  <line x1="18" y1="36" x2="18" y2="50" stroke="url(#bg)" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="46" y1="36" x2="46" y2="50" stroke="url(#bg)" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <!-- Lightning bolt / link in the center -->
+  <path d="M35,20 L29,33 L34,33 L29,46" fill="none" stroke="url(#bolt)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Star/sparkle at top -->
+  <circle cx="34" cy="19" r="1.5" fill="#fbbf24" opacity="0.9"/>
 </svg>
