@@ -18,26 +18,26 @@ import { ConfirmModalService } from './confirm-modal.service';
           (click)="modal.cancel()"></div>
 
         <!-- Card -->
-        <div class="relative bg-gray-900/60 rounded-2xl shadow-2xl border border-white/5 w-full max-w-md mx-4 p-6">
-          <h3 class="text-base font-semibold text-gray-100 mb-2">
+        <div class="relative bg-gray-950/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/5 w-full max-w-md mx-4 p-10 animate-fade-up">
+          <h3 class="text-xl font-bold text-gray-100 mb-3 tracking-tight">
             {{ modal.options().title }}
           </h3>
-          <p class="text-sm text-gray-400 mb-6">
+          <p class="text-sm text-gray-500 mb-10 leading-relaxed font-medium">
             {{ modal.options().message }}
           </p>
-          <div class="flex justify-end gap-3">
-            <button
-              (click)="modal.cancel()"
-              class="px-4 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-white/5 transition-colors">
-              {{ modal.options().cancelText || ('shared.cancel' | transloco) }}
-            </button>
+          <div class="flex flex-col sm:flex-row-reverse justify-end gap-3">
             <button
               (click)="modal.accept()"
-              class="px-4 py-2 text-sm font-medium rounded-md text-white transition-colors"
+              class="px-6 py-3 text-sm font-bold rounded-xl text-white transition-all hover:shadow-lg active:scale-[0.98]"
               [class]="modal.options().danger
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-gradient-to-r from-cyan-500 to-violet-500'">
+                ? 'bg-red-500/80 hover:bg-red-500 shadow-red-500/20'
+                : 'bg-gradient-to-r from-cyan-500 to-violet-500 shadow-cyan-500/20'">
               {{ modal.options().confirmText || ('shared.confirm' | transloco) }}
+            </button>
+            <button
+              (click)="modal.cancel()"
+              class="px-6 py-3 text-sm font-bold rounded-xl text-gray-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/5 transition-all">
+              {{ modal.options().cancelText || ('shared.cancel' | transloco) }}
             </button>
           </div>
         </div>

@@ -1,38 +1,43 @@
-<div class="min-h-screen flex items-center justify-center px-4">
+<div class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 relative overflow-hidden">
+  <div class="hero-glow opacity-30"></div>
+  <div class="hero-grid opacity-10"></div>
+
   @if (isLoading()) {
-    <div class="flex flex-col items-center gap-3 text-gray-400">
-      <svg class="w-6 h-6 animate-spin text-cyan-400" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-      </svg>
-      <span class="text-sm">{{ 'health.loading' | transloco }}</span>
+    <div class="relative z-10 flex flex-col items-center gap-4 text-gray-500 animate-pulse">
+      <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+        <svg class="w-6 h-6 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+        </svg>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-widest">{{ 'health.loading' | transloco }}</span>
     </div>
   } @else if (errorMessage()) {
-    <div class="w-full max-w-sm bg-gray-900/60 rounded-2xl border border-red-500/20 p-6 text-center">
-      <div class="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-        <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="relative z-10 w-full max-w-sm bg-white/[0.03] backdrop-blur-md rounded-3xl border border-red-500/20 p-10 text-center shadow-2xl animate-fade-up">
+      <div class="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
       </div>
-      <h2 class="text-sm font-semibold text-gray-100 mb-1">{{ 'health.errorTitle' | transloco }}</h2>
-      <p class="text-xs text-gray-400">{{ errorMessage() }}</p>
+      <h2 class="text-lg font-bold text-gray-100 mb-2 tracking-tight">{{ 'health.errorTitle' | transloco }}</h2>
+      <p class="text-sm text-red-400/80 font-medium">{{ errorMessage() }}</p>
     </div>
   } @else if (health()) {
-    <div class="w-full max-w-sm bg-gray-900/60 rounded-2xl border border-white/5 p-6 text-center">
-      <div class="w-10 h-10 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    <div class="relative z-10 w-full max-w-sm bg-white/[0.03] backdrop-blur-md rounded-3xl border border-white/[0.05] p-10 text-center shadow-2xl animate-fade-up">
+      <div class="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-inner">
+        <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
         </svg>
       </div>
-      <h1 class="text-base font-semibold text-gray-100 mb-4">{{ health()!.message }}</h1>
-      <div class="text-left space-y-2 border-t border-white/5 pt-4">
-        <div class="flex justify-between text-sm bg-gray-800/50 rounded-lg px-3 py-2">
-          <span class="text-gray-400">{{ 'health.statusLabel' | transloco }}</span>
-          <span class="font-medium text-green-400">{{ health()!.status }}</span>
+      <h1 class="text-xl font-bold text-gray-100 mb-8 tracking-tight">{{ health()!.message }}</h1>
+      <div class="space-y-3 pt-6 border-t border-white/5">
+        <div class="flex justify-between items-center text-xs bg-white/5 rounded-xl px-4 py-3 border border-white/5">
+          <span class="text-gray-500 font-bold uppercase tracking-widest">{{ 'health.statusLabel' | transloco }}</span>
+          <span class="font-bold text-green-400">{{ health()!.status }}</span>
         </div>
-        <div class="flex justify-between text-sm bg-gray-800/50 rounded-lg px-3 py-2">
-          <span class="text-gray-400">{{ 'health.versionLabel' | transloco }}</span>
-          <span class="font-medium text-gray-100">{{ health()!.version }}</span>
+        <div class="flex justify-between items-center text-xs bg-white/5 rounded-xl px-4 py-3 border border-white/5">
+          <span class="text-gray-500 font-bold uppercase tracking-widest">{{ 'health.versionLabel' | transloco }}</span>
+          <span class="font-bold text-gray-200 tabular-nums">{{ health()!.version }}</span>
         </div>
       </div>
     </div>

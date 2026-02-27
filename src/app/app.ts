@@ -182,14 +182,7 @@ import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.comp
     <app-toast />
     <app-confirm-modal />
   `,
-  styles: [`
-    .gradient-text {
-      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  `],
+  styles: [],
 })
 export class App {
   readonly themeService = inject(ThemeService);

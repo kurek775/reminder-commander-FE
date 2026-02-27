@@ -1,45 +1,47 @@
-<select
-  [ngModel]="scheduleType()"
-  (ngModelChange)="scheduleType.set($event)"
-  class="w-full pl-4 pr-10 py-2.5 text-sm border border-white/10 rounded-md bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-  <option value="daily">{{ 'rules.scheduleDaily' | transloco }}</option>
-  <option value="weekly">{{ 'rules.scheduleWeekly' | transloco }}</option>
-  <option value="hourly">{{ 'rules.scheduleHourly' | transloco }}</option>
-</select>
-
-@if (scheduleType() === 'daily' || scheduleType() === 'weekly') {
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
   <select
-    [ngModel]="scheduleHour()"
-    (ngModelChange)="scheduleHour.set(+$event)"
-    class="w-full pl-4 pr-10 py-2.5 text-sm border border-white/10 rounded-md bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-    @for (h of hourOptions; track h) {
-      <option [value]="h">{{ padHour(h) }}</option>
-    }
+    [ngModel]="scheduleType()"
+    (ngModelChange)="scheduleType.set($event)"
+    class="w-full pl-4 pr-10 py-3 text-sm border border-white/10 rounded-xl bg-white/5 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
+    <option value="daily" class="bg-gray-900">{{ 'rules.scheduleDaily' | transloco }}</option>
+    <option value="weekly" class="bg-gray-900">{{ 'rules.scheduleWeekly' | transloco }}</option>
+    <option value="hourly" class="bg-gray-900">{{ 'rules.scheduleHourly' | transloco }}</option>
   </select>
-}
 
-@if (scheduleType() === 'weekly') {
-  <select
-    [ngModel]="scheduleDay()"
-    (ngModelChange)="scheduleDay.set(+$event)"
-    class="w-full pl-4 pr-10 py-2.5 text-sm border border-white/10 rounded-md bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-    <option [value]="1">{{ 'rules.days.1' | transloco }}</option>
-    <option [value]="2">{{ 'rules.days.2' | transloco }}</option>
-    <option [value]="3">{{ 'rules.days.3' | transloco }}</option>
-    <option [value]="4">{{ 'rules.days.4' | transloco }}</option>
-    <option [value]="5">{{ 'rules.days.5' | transloco }}</option>
-    <option [value]="6">{{ 'rules.days.6' | transloco }}</option>
-    <option [value]="0">{{ 'rules.days.0' | transloco }}</option>
-  </select>
-}
+  @if (scheduleType() === 'daily' || scheduleType() === 'weekly') {
+    <select
+      [ngModel]="scheduleHour()"
+      (ngModelChange)="scheduleHour.set(+$event)"
+      class="w-full pl-4 pr-10 py-3 text-sm border border-white/10 rounded-xl bg-white/5 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
+      @for (h of hourOptions; track h) {
+        <option [value]="h" class="bg-gray-900">{{ 'rules.at' | transloco }} {{ padHour(h) }}:00</option>
+      }
+    </select>
+  }
 
-@if (scheduleType() === 'hourly') {
-  <select
-    [ngModel]="scheduleInterval()"
-    (ngModelChange)="scheduleInterval.set(+$event)"
-    class="w-full pl-4 pr-10 py-2.5 text-sm border border-white/10 rounded-md bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-    @for (i of intervalOptions; track i) {
-      <option [value]="i">{{ i }}h</option>
-    }
-  </select>
-}
+  @if (scheduleType() === 'weekly') {
+    <select
+      [ngModel]="scheduleDay()"
+      (ngModelChange)="scheduleDay.set(+$event)"
+      class="w-full pl-4 pr-10 py-3 text-sm border border-white/10 rounded-xl bg-white/5 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
+      <option [value]="1" class="bg-gray-900">{{ 'rules.days.1' | transloco }}</option>
+      <option [value]="2" class="bg-gray-900">{{ 'rules.days.2' | transloco }}</option>
+      <option [value]="3" class="bg-gray-900">{{ 'rules.days.3' | transloco }}</option>
+      <option [value]="4" class="bg-gray-900">{{ 'rules.days.4' | transloco }}</option>
+      <option [value]="5" class="bg-gray-900">{{ 'rules.days.5' | transloco }}</option>
+      <option [value]="6" class="bg-gray-900">{{ 'rules.days.6' | transloco }}</option>
+      <option [value]="0" class="bg-gray-900">{{ 'rules.days.0' | transloco }}</option>
+    </select>
+  }
+
+  @if (scheduleType() === 'hourly') {
+    <select
+      [ngModel]="scheduleInterval()"
+      (ngModelChange)="scheduleInterval.set(+$event)"
+      class="w-full pl-4 pr-10 py-3 text-sm border border-white/10 rounded-xl bg-white/5 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
+      @for (i of intervalOptions; track i) {
+        <option [value]="i" class="bg-gray-900">{{ 'rules.every' | transloco }} {{ i }}h</option>
+      }
+    </select>
+  }
+</div>
