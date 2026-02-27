@@ -6,7 +6,7 @@ Angular 21 frontend for the Reminder Commander application. Connects to the Fast
 
 ## Current Status
 
-All 6 phases complete. **41 tests pass (14 spec files).**
+All 7 phases complete. **150 tests pass (25 spec files).**
 
 | Phase | Feature | Status |
 |-------|---------|--------|
@@ -16,6 +16,7 @@ All 6 phases complete. **41 tests pass (14 spec files).**
 | 4 | Google Sheets connect flow | ✅ |
 | 5 | Tracker rules (health_tracker / WhatsApp reminders) | ✅ |
 | 6 | Warlord UI (voice call dashboard, inline edit, debug) | ✅ |
+| 7 | Dashboard, 404 page, sheet management enhancements | ✅ |
 
 ---
 
@@ -80,9 +81,16 @@ The API base URL is configured via environment files:
 - `authGuard` protects `/profile`, `/sheets`, `/rules`, `/warlord`
 - `authInterceptor` attaches `Authorization: Bearer <token>` to every request
 
+### Dashboard
+- `/` — dashboard showing connected sheets, active rules, recent activity, and setup checklist
+- Metric cards: sheets connected, health rules active, warlord rules active
+- Setup checklist: Google login, WhatsApp linked, sheets connected, rules created
+
 ### Sheets
-- `/sheets` — lists connected Google Sheets
-- "Connect a Sheet" form — validates URL, sends `sheet_url` query param to `GET /api/v1/sheets/connect`
+- `/sheets` — lists connected Google Sheets with tabbed "Connect Existing" / "Create New" UI
+- Sheet preview — expandable data table showing headers and rows
+- Inline rename — custom display name per sheet
+- Disconnect with confirmation modal and rule-count warning
 - OAuth redirect handled transparently by the backend; on return, sheet appears in the list
 
 ### Rules (Health Tracker)
@@ -126,6 +134,9 @@ src/
       i18n/
         language.service.ts       # EN/CS language switching (Transloco)
     features/
+      dashboard/
+        dashboard.component.*     # Metric cards, setup checklist, recent activity
+        dashboard.service.ts      # GET /api/v1/dashboard/summary
       health/
         health.service.ts         # GET /api/v1/health
         health.component.*        # Displays backend health status
@@ -137,8 +148,9 @@ src/
         profile/
           profile.component.*     # Shows current user info, WhatsApp link form
       sheets/
+        sheets.service.ts         # connect, create, preview, rename, disconnect
         sheets-list/
-          sheets-list.component.* # Lists connected sheets
+          sheets-list.component.* # Lists sheets, tabbed connect/create, preview, rename, disconnect
         connect-sheet/
           connect-sheet.component.* # URL input → OAuth connect flow
       rules/
@@ -147,6 +159,16 @@ src/
       warlord/
         warlord.service.ts        # trigger, createRule, deleteRule, updatePrompt, debugRule, getVoiceLogs
         warlord.component.*       # Full warlord dashboard (signals + computed)
+      not-found/
+        not-found.component.ts    # 404 page with link back to home
+    shared/
+      models.ts                   # Shared interfaces (SheetIntegration, SheetPreview, etc.)
+      cron-utils.ts               # Cron expression utilities
+      cron-to-human.pipe.ts       # Pipe: cron expression → human-readable string
+      confirm-modal/              # Reusable confirmation dialog (component + service)
+      toast/                      # Toast notification (component + service)
+      skeleton/                   # Loading skeleton component
+      schedule-picker/            # Cron schedule picker with model() two-way binding
   environments/
     environment.ts                # Dev: apiUrl = http://localhost:8000
     environment.prod.ts           # Prod: apiUrl = '' (same-origin)
@@ -172,15 +194,15 @@ src/
 
 | Path | Component | Guard |
 |------|-----------|-------|
-| `/` | redirect → `/health` | — |
-| `/health` | `HealthComponent` | — |
+| `/` | `DashboardComponent` | `authGuard` |
+| `/health` | `HealthComponent` | `authGuard` |
 | `/login` | `LoginComponent` | — |
 | `/auth/callback` | `CallbackComponent` | — |
 | `/profile` | `ProfileComponent` | `authGuard` |
 | `/sheets` | `SheetsListComponent` | `authGuard` |
-| `/sheets/connect` | `ConnectSheetComponent` | `authGuard` |
 | `/rules` | `RulesListComponent` | `authGuard` |
 | `/warlord` | `WarlordComponent` | `authGuard` |
+| `**` | `NotFoundComponent` | — |
 
 ---
 

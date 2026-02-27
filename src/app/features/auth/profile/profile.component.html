@@ -1,60 +1,48 @@
 @if (authService.currentUser(); as user) {
-<div class="max-w-2xl mx-auto px-6 py-12">
-  <h1 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
+<div class="max-w-5xl mx-auto px-6 py-12">
+  <h1 class="text-xl font-semibold text-gray-100 mb-8">
     {{ 'auth.profile.title' | transloco }}
   </h1>
 
   <!-- User card -->
-  <div class="bg-white dark:bg-gray-900 rounded-2xl ring-1 ring-gray-200 dark:ring-gray-800 shadow-sm p-8 mb-8 flex items-center gap-5">
-    <div class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-semibold text-lg shrink-0 select-none">
+  <div class="bg-gray-900/60 rounded-2xl border border-white/5 p-8 mb-8 flex items-center gap-5">
+    <div class="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-semibold text-lg shrink-0 select-none">
       {{ user.display_name.charAt(0).toUpperCase() }}
     </div>
     <div>
-      <h2 class="text-base font-semibold text-gray-900 dark:text-white">{{ user.display_name }}</h2>
-      <p class="text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+      <h2 class="text-base font-semibold text-gray-100">{{ user.display_name }}</h2>
+      <p class="text-sm text-gray-400">{{ user.email }}</p>
     </div>
   </div>
 
   <!-- WhatsApp section -->
-  <div class="bg-white dark:bg-gray-900 rounded-2xl ring-1 ring-gray-200 dark:ring-gray-800 shadow-sm p-8">
-    <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+  <div class="bg-gray-900/60 rounded-2xl border border-white/5 p-8">
+    <h3 class="text-sm font-semibold text-gray-100 mb-1">
       {{ 'auth.profile.whatsappSection' | transloco }}
     </h3>
-    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">{{ 'auth.profile.whatsappHint' | transloco }}</p>
+    <p class="text-xs text-gray-400 mb-4">{{ 'auth.profile.whatsappHint' | transloco }}</p>
 
     @if (user.whatsapp_phone) {
-      <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Current: {{ user.whatsapp_phone }}</p>
+      <p class="text-xs text-gray-400 mb-3">Current: {{ user.whatsapp_phone }}</p>
     }
 
-    <div class="flex gap-2">
+    <div class="flex flex-col sm:flex-row gap-2">
       <input
         type="tel"
         [placeholder]="'auth.profile.phonePlaceholder' | transloco"
         [ngModel]="phone()"
         (ngModelChange)="phone.set($event)"
         aria-label="WhatsApp phone number"
-        class="flex-1 px-4 py-2.5 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+        class="flex-1 px-4 py-2.5 text-sm bg-gray-800 border border-white/10 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
       />
       <button
         (click)="onLinkWhatsapp()"
-        class="px-5 py-2.5 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-colors shrink-0"
+        class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-cyan-500 to-violet-500 text-white rounded-xl transition-colors shrink-0"
       >
         {{ 'auth.profile.linkPhoneButton' | transloco }}
       </button>
     </div>
 
-    @if (saveMessage()) {
-      <p class="mt-3 text-sm text-green-600 dark:text-green-400 flex items-center gap-1.5">
-        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        {{ saveMessage() }}
-      </p>
-    }
-
-    @if (errorMessage()) {
-      <p class="mt-3 text-sm text-red-600 dark:text-red-400">{{ errorMessage() }}</p>
-    }
   </div>
 </div>
 }

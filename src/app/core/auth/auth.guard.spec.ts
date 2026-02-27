@@ -21,7 +21,7 @@ describe('authGuard', () => {
   beforeEach(() => {
     tokenService = { isTokenExpired: vi.fn() };
     router = {
-      createUrlTree: vi.fn().mockReturnValue('/login'),
+      createUrlTree: vi.fn().mockReturnValue('/'),
       navigate: vi.fn(),
     };
 
@@ -33,11 +33,11 @@ describe('authGuard', () => {
     });
   });
 
-  it('should redirect to /login when token is expired', () => {
+  it('should redirect to / when token is expired', () => {
     tokenService.isTokenExpired.mockReturnValue(true);
     const result = runGuard();
-    expect(result).toEqual('/login');
-    expect(router.createUrlTree).toHaveBeenCalledWith(['/login']);
+    expect(result).toEqual('/');
+    expect(router.createUrlTree).toHaveBeenCalledWith(['/']);
   });
 
   it('should return true when token is valid', () => {

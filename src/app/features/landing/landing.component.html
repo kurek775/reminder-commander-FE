@@ -1,0 +1,307 @@
+<!-- ===== LANDING: Full-page dark Bifrost theme ===== -->
+<div class="bg-gray-950 text-gray-100 overflow-x-hidden">
+
+  <!-- ===== HERO ===== -->
+  <section class="relative min-h-[calc(100vh-64px)] flex items-center">
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 py-16">
+      <!-- Text -->
+      <div class="flex-1 text-center lg:text-left">
+        <p class="anim-fade-1 text-xs font-semibold tracking-[4px] uppercase text-cyan-400 mb-5">
+          {{ 'landing.tagline' | transloco }}
+        </p>
+        <h1 class="anim-fade-2 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          {{ 'landing.heroTitle1' | transloco }} <span class="gradient-text">{{ 'landing.heroTitle2' | transloco }}</span><br>
+          {{ 'landing.heroTitle3' | transloco }} <span class="gold-text">{{ 'landing.heroTitle4' | transloco }}</span>
+        </h1>
+        <p class="anim-fade-3 text-lg text-gray-400 max-w-lg mx-auto lg:mx-0 mb-9">
+          {{ 'landing.heroSubtitle' | transloco }}
+        </p>
+        <div class="anim-fade-4 flex flex-wrap gap-4 justify-center lg:justify-start">
+          <button (click)="onGetStarted()"
+                  class="px-8 py-3.5 text-base font-bold rounded-xl bg-gradient-to-r from-amber-400 to-amber-600 text-gray-950 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-400/30 transition-all tracking-wide">
+            {{ 'landing.ctaStart' | transloco }}
+          </button>
+          <a href="#how-it-works"
+             class="px-6 py-3.5 text-sm font-semibold rounded-xl border border-gray-700 text-white hover:border-cyan-500 hover:bg-cyan-500/5 transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            {{ 'landing.ctaHow' | transloco }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero visual -->
+      <div class="anim-fade-5 flex-shrink-0 w-72 sm:w-80 lg:w-96">
+        <div class="anim-float">
+          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+            <defs>
+              <linearGradient id="hb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+              <linearGradient id="hbv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+              <linearGradient id="hg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient>
+              <filter id="gl"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="sgl"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <!-- Hexagons -->
+            <polygon points="200,40 330,110 330,250 200,320 70,250 70,110" fill="none" stroke="url(#hb)" stroke-width="1.5" opacity="0.15"/>
+            <polygon points="200,80 290,130 290,230 200,280 110,230 110,130" fill="none" stroke="url(#hb)" stroke-width="1" opacity="0.1"/>
+            <!-- Light beams -->
+            <line x1="200" y1="50" x2="200" y2="370" stroke="url(#hbv)" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+            <line x1="175" y1="80" x2="175" y2="340" stroke="url(#hbv)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+            <line x1="225" y1="80" x2="225" y2="340" stroke="url(#hbv)" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+            <!-- Spear tip -->
+            <polygon points="200,30 185,80 200,65 215,80" fill="url(#hg)" filter="url(#gl)"/>
+            <!-- Bridge arcs -->
+            <path d="M50,260 Q200,140 350,260" fill="none" stroke="url(#hb)" stroke-width="3" stroke-linecap="round" filter="url(#gl)" stroke-dasharray="200" stroke-dashoffset="0">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2s" fill="freeze"/>
+            </path>
+            <path d="M65,270 Q200,160 335,270" fill="none" stroke="url(#hb)" stroke-width="1.5" stroke-linecap="round" opacity="0.15"/>
+            <!-- Grid dots (Sheets / left) -->
+            <g opacity="0.5">
+              <circle cx="100" cy="155" r="3" fill="#06b6d4"/><circle cx="115" cy="155" r="3" fill="#06b6d4" opacity="0.7"/>
+              <circle cx="130" cy="155" r="3" fill="#06b6d4" opacity="0.5"/>
+              <circle cx="100" cy="170" r="3" fill="#06b6d4" opacity="0.7"/><circle cx="115" cy="170" r="3" fill="#06b6d4" opacity="0.5"/>
+              <circle cx="130" cy="170" r="3" fill="#06b6d4" opacity="0.3"/>
+              <circle cx="100" cy="185" r="3" fill="#06b6d4" opacity="0.5"/><circle cx="115" cy="185" r="3" fill="#06b6d4" opacity="0.3"/>
+            </g>
+            <!-- Sound waves (Voice / right) -->
+            <g opacity="0.5">
+              <path d="M275,155 Q285,170 275,185" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
+              <path d="M285,145 Q300,170 285,195" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+              <path d="M295,138 Q315,170 295,202" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+            </g>
+            <!-- Glow -->
+            <circle cx="200" cy="30" r="6" fill="#fbbf24" opacity="0.6" filter="url(#sgl)"/>
+            <!-- Floating particles -->
+            <circle cx="140" cy="220" r="2" fill="#06b6d4" opacity="0.4"><animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite"/></circle>
+            <circle cx="260" cy="200" r="2" fill="#8b5cf6" opacity="0.4"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.5s" repeatCount="indefinite"/></circle>
+            <circle cx="200" cy="300" r="2" fill="#fbbf24" opacity="0.3"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite"/></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <div class="border-y border-white/5 py-12">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-center gap-10">
+      <span class="flex items-center gap-2.5 text-gray-500 text-sm">
+        <svg class="w-5 h-5 text-cyan-500 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {{ 'landing.trust.encrypted' | transloco }}
+      </span>
+      <span class="flex items-center gap-2.5 text-gray-500 text-sm">
+        <svg class="w-5 h-5 text-violet-500 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        {{ 'landing.trust.sheets' | transloco }}
+      </span>
+      <span class="flex items-center gap-2.5 text-gray-500 text-sm">
+        <svg class="w-5 h-5 text-amber-400 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        {{ 'landing.trust.phone' | transloco }}
+      </span>
+      <span class="flex items-center gap-2.5 text-gray-500 text-sm">
+        <svg class="w-5 h-5 text-green-500 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ 'landing.trust.selfHosted' | transloco }}
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== FEATURES ===== -->
+  <section id="features" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-xs font-semibold tracking-[4px] uppercase text-cyan-400 mb-3">{{ 'landing.features.label' | transloco }}</p>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+          {{ 'landing.features.title1' | transloco }} <span class="gradient-text">{{ 'landing.features.title2' | transloco }}</span>
+        </h2>
+        <p class="text-gray-400 max-w-lg mx-auto">{{ 'landing.features.subtitle' | transloco }}</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <!-- The Loom -->
+        <div class="gradient-border-top overflow-hidden bg-gray-900/60 border border-white/5 rounded-2xl p-8 hover:-translate-y-1 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-black/40 transition-all">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-cyan-500/10 border border-cyan-500/20">
+            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-1">{{ 'landing.features.loom.title' | transloco }}</h3>
+          <p class="text-xs font-medium tracking-widest uppercase text-gray-500 mb-3">{{ 'landing.features.loom.myth' | transloco }}</p>
+          <p class="text-sm text-gray-400 leading-relaxed">{{ 'landing.features.loom.desc' | transloco }}</p>
+        </div>
+
+        <!-- Voice of Stentor -->
+        <div class="gradient-border-top overflow-hidden bg-gray-900/60 border border-white/5 rounded-2xl p-8 hover:-translate-y-1 hover:border-amber-500/30 hover:shadow-xl hover:shadow-black/40 transition-all">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-amber-400/10 border border-amber-400/20">
+            <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-1">{{ 'landing.features.stentor.title' | transloco }}</h3>
+          <p class="text-xs font-medium tracking-widest uppercase text-gray-500 mb-3">{{ 'landing.features.stentor.myth' | transloco }}</p>
+          <p class="text-sm text-gray-400 leading-relaxed">{{ 'landing.features.stentor.desc' | transloco }}</p>
+        </div>
+
+        <!-- The Threads -->
+        <div class="gradient-border-top overflow-hidden bg-gray-900/60 border border-white/5 rounded-2xl p-8 hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-xl hover:shadow-black/40 transition-all">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-violet-500/10 border border-violet-500/20">
+            <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-1">{{ 'landing.features.threads.title' | transloco }}</h3>
+          <p class="text-xs font-medium tracking-widest uppercase text-gray-500 mb-3">{{ 'landing.features.threads.myth' | transloco }}</p>
+          <p class="text-sm text-gray-400 leading-relaxed">{{ 'landing.features.threads.desc' | transloco }}</p>
+        </div>
+
+        <!-- The All-Seeing -->
+        <div class="gradient-border-top overflow-hidden bg-gray-900/60 border border-white/5 rounded-2xl p-8 hover:-translate-y-1 hover:border-green-500/30 hover:shadow-xl hover:shadow-black/40 transition-all">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-green-500/10 border border-green-500/20">
+            <svg class="w-5 h-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-1">{{ 'landing.features.allSeeing.title' | transloco }}</h3>
+          <p class="text-xs font-medium tracking-widest uppercase text-gray-500 mb-3">{{ 'landing.features.allSeeing.myth' | transloco }}</p>
+          <p class="text-sm text-gray-400 leading-relaxed">{{ 'landing.features.allSeeing.desc' | transloco }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section id="how-it-works" class="py-24 bg-gray-900/40">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-xs font-semibold tracking-[4px] uppercase text-cyan-400 mb-3">{{ 'landing.howItWorks.label' | transloco }}</p>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+          {{ 'landing.howItWorks.title1' | transloco }} <span class="gold-text">{{ 'landing.howItWorks.title2' | transloco }}</span>
+        </h2>
+        <p class="text-gray-400 max-w-lg mx-auto">{{ 'landing.howItWorks.subtitle' | transloco }}</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-10 relative">
+        <!-- Connecting line (desktop only) -->
+        <div class="hidden md:block absolute top-10 left-[calc(16.67%+24px)] right-[calc(16.67%+24px)] h-0.5 bg-gradient-to-r from-cyan-500 via-violet-500 to-amber-400 opacity-20"></div>
+
+        <div class="text-center relative">
+          <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-cyan-500/10 border-2 border-cyan-500/30 text-cyan-400 text-2xl font-bold relative z-10">1</div>
+          <h3 class="text-lg font-semibold mb-2">{{ 'landing.howItWorks.step1.title' | transloco }}</h3>
+          <p class="text-sm text-gray-400 max-w-xs mx-auto">{{ 'landing.howItWorks.step1.desc' | transloco }}</p>
+        </div>
+
+        <div class="text-center relative">
+          <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-violet-500/10 border-2 border-violet-500/30 text-violet-400 text-2xl font-bold relative z-10">2</div>
+          <h3 class="text-lg font-semibold mb-2">{{ 'landing.howItWorks.step2.title' | transloco }}</h3>
+          <p class="text-sm text-gray-400 max-w-xs mx-auto">{{ 'landing.howItWorks.step2.desc' | transloco }}</p>
+        </div>
+
+        <div class="text-center relative">
+          <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-amber-400/10 border-2 border-amber-400/30 text-amber-400 text-2xl font-bold relative z-10">3</div>
+          <h3 class="text-lg font-semibold mb-2">{{ 'landing.howItWorks.step3.title' | transloco }}</h3>
+          <p class="text-sm text-gray-400 max-w-xs mx-auto">{{ 'landing.howItWorks.step3.desc' | transloco }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BRIDGE SECTION ===== -->
+  <section id="bridge" class="py-24">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+
+      <!-- Visual: two realm cards with connecting line -->
+      <div class="flex-shrink-0 w-full lg:w-96">
+        <div class="bg-gray-900/60 border border-white/5 rounded-2xl p-7">
+          <p class="text-[11px] font-semibold tracking-[3px] uppercase text-cyan-400 mb-1">{{ 'landing.bridge.ethereal' | transloco }}</p>
+          <h4 class="text-base font-semibold mb-2">{{ 'landing.bridge.etherealTitle' | transloco }}</h4>
+          <p class="text-sm text-gray-400">{{ 'landing.bridge.etherealDesc' | transloco }}</p>
+        </div>
+
+        <div class="flex justify-center py-2">
+          <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none">
+            <defs><linearGradient id="br" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#fbbf24"/></linearGradient></defs>
+            <line x1="16" y1="0" x2="16" y2="32" stroke="url(#br)" stroke-width="2" stroke-dasharray="4 4">
+              <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1s" repeatCount="indefinite"/>
+            </line>
+          </svg>
+        </div>
+
+        <div class="bg-gray-900/60 border border-white/5 rounded-2xl p-7">
+          <p class="text-[11px] font-semibold tracking-[3px] uppercase text-amber-400 mb-1">{{ 'landing.bridge.midgard' | transloco }}</p>
+          <h4 class="text-base font-semibold mb-2">{{ 'landing.bridge.midgardTitle' | transloco }}</h4>
+          <p class="text-sm text-gray-400">{{ 'landing.bridge.midgardDesc' | transloco }}</p>
+        </div>
+      </div>
+
+      <!-- Text + checklist -->
+      <div class="flex-1">
+        <p class="text-xs font-semibold tracking-[4px] uppercase text-cyan-400 mb-3">{{ 'landing.bridge.label' | transloco }}</p>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+          {{ 'landing.bridge.title1' | transloco }} <span class="gradient-text">{{ 'landing.bridge.title2' | transloco }}</span>
+          {{ 'landing.bridge.title3' | transloco }} <span class="gold-text">{{ 'landing.bridge.title4' | transloco }}</span>
+        </h2>
+        <p class="text-gray-400 mb-7">{{ 'landing.bridge.subtitle' | transloco }}</p>
+
+        <ul class="space-y-4">
+          @for (feat of ['feat1','feat2','feat3','feat4','feat5']; track feat) {
+            <li class="flex items-start gap-3 text-sm text-gray-400">
+              <span class="shrink-0 w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mt-0.5">
+                <svg class="w-3 h-3 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span [innerHTML]="'landing.bridge.' + feat | transloco"></span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <div class="border-y border-white/5 bg-gray-900/40 py-16">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center">
+        <p class="text-4xl font-bold gradient-text mb-1">9</p>
+        <p class="text-xs text-gray-500 tracking-wide">{{ 'landing.stats.routes' | transloco }}</p>
+      </div>
+      <div class="text-center">
+        <p class="text-4xl font-bold gold-text mb-1">195</p>
+        <p class="text-xs text-gray-500 tracking-wide">{{ 'landing.stats.tests' | transloco }}</p>
+      </div>
+      <div class="text-center">
+        <p class="text-4xl font-bold gradient-text mb-1">2</p>
+        <p class="text-xs text-gray-500 tracking-wide">{{ 'landing.stats.langs' | transloco }}</p>
+      </div>
+      <div class="text-center">
+        <p class="text-4xl font-bold gold-text mb-1">&lt;5m</p>
+        <p class="text-xs text-gray-500 tracking-wide">{{ 'landing.stats.setup' | transloco }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <section class="relative py-28 text-center">
+    <div class="cta-glow"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <p class="text-xs font-semibold tracking-[4px] uppercase text-cyan-400 mb-3">{{ 'landing.cta.label' | transloco }}</p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+        {{ 'landing.cta.title1' | transloco }}<br>
+        {{ 'landing.cta.title2' | transloco }} <span class="gold-text">{{ 'landing.cta.title3' | transloco }}</span>
+      </h2>
+      <p class="text-lg text-gray-400 max-w-lg mx-auto mb-9">{{ 'landing.cta.subtitle' | transloco }}</p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <button (click)="onGetStarted()"
+                class="px-8 py-3.5 text-base font-bold rounded-xl bg-gradient-to-r from-amber-400 to-amber-600 text-gray-950 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-400/30 transition-all tracking-wide flex items-center gap-2">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          {{ 'landing.cta.getStarted' | transloco }}
+        </button>
+        <a href="#features"
+           class="px-6 py-3.5 text-sm font-semibold rounded-xl border border-gray-700 text-white hover:border-cyan-500 hover:bg-cyan-500/5 transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          {{ 'landing.cta.learnMore' | transloco }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-white/5 py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-gray-600">&copy; 2026 {{ 'landing.footer' | transloco }}</p>
+      <div class="flex gap-6">
+        <a href="#features" class="text-xs text-gray-600 hover:text-white transition-colors">{{ 'landing.nav.features' | transloco }}</a>
+        <a href="#how-it-works" class="text-xs text-gray-600 hover:text-white transition-colors">{{ 'landing.nav.howItWorks' | transloco }}</a>
+      </div>
+    </div>
+  </footer>
+</div>

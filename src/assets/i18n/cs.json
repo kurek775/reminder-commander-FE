@@ -1,7 +1,7 @@
 {
   "nav": {
     "appName": "Reminder Commander",
-    "toggleTheme": "Přepnout motiv",
+    "toggleMenu": "Přepnout menu",
     "toggleLang": "EN",
     "profile": "Profil",
     "sheets": "Tabulky",
@@ -41,6 +41,7 @@
     "trackerRules": "Pravidla trackeru",
     "warlordRules": "Pravidla velitele",
     "recentActivity": "Nedávná aktivita",
+    "interactionsLogged": "{{count}} interakcí zaznamenáno.",
     "noActivity": "Zatím žádná aktivita.",
     "setupTitle": "Začínáme",
     "setupHint": "Dokončete tyto kroky pro příjem připomínek.",
@@ -79,10 +80,28 @@
   "sheets": {
     "title": "Vaše Google Tabulky",
     "empty": "Zatím žádné tabulky.",
-    "connectButton": "Připojit Google Tabulku",
+    "connectButton": "Připojit",
     "urlPlaceholder": "Vložte URL Google Tabulky...",
     "connecting": "Připojování...",
-    "loadError": "Nepodařilo se načíst tabulky."
+    "loadError": "Nepodařilo se načíst tabulky.",
+    "connectExisting": "Připojit existující",
+    "createNew": "Vytvořit novou",
+    "titlePlaceholder": "Název nové tabulky...",
+    "createButton": "Vytvořit tabulku",
+    "creating": "Vytvářím...",
+    "disconnect": "Odpojit",
+    "deleteTitle": "Odpojit tabulku",
+    "deleteConfirm": "Opravdu chcete odpojit tuto tabulku?",
+    "deleteConfirmWithRules": "Tato tabulka je používána {{count}} pravidly. Opravdu ji chcete odpojit?",
+    "deleteSuccess": "Tabulka odpojena.",
+    "deleteFailed": "Nepodařilo se odpojit tabulku.",
+    "preview": "Náhled",
+    "previewLoading": "Načítání náhledu...",
+    "previewFailed": "Nepodařilo se načíst náhled.",
+    "rename": "Přejmenovat",
+    "saveRename": "Uložit",
+    "renameSuccess": "Tabulka přejmenována.",
+    "renameFailed": "Nepodařilo se přejmenovat tabulku."
   },
   "rules": {
     "title": "Pravidla trackeru",
@@ -107,6 +126,8 @@
     "deleteConfirm": "Opravdu chcete smazat toto pravidlo?",
     "deleteTitle": "Smazat pravidlo",
     "paused": "Pozastaveno",
+    "togglePause": "Pozastavit",
+    "toggleResume": "Obnovit",
     "scheduleDaily": "Jednou denně",
     "scheduleWeekly": "Jednou týdně",
     "scheduleHourly": "Každých N hodin",
@@ -159,5 +180,111 @@
     "debugSheetEmpty": "Tabulka je prázdná nebo nečitelná.",
     "debugExpected": "Očekávané: Sl. A = název úkolu · Sl. B = datum YYYY-MM-DD · Sl. C = FALSE (prošlé datum, nesplněno)",
     "debugCheckSheet": "Zkontrolovat tabulku"
+  },
+  "landing": {
+    "tagline": "Most mezi daty a osudem",
+    "heroTitle1": "Tabulky",
+    "heroTitle2": "promluví.",
+    "heroTitle3": "Telefon",
+    "heroTitle4": "poslechne.",
+    "heroSubtitle": "Bifrost Link promění Google Tabulky v automatické hlasové hovory a WhatsApp připomínky. Termíny se stávají rozkazy. Data se stávají činy.",
+    "ctaStart": "Začít zdarma",
+    "ctaHow": "Jak to funguje",
+    "nav": {
+      "features": "Funkce",
+      "howItWorks": "Jak to funguje",
+      "bridge": "Most",
+      "getStarted": "Začít"
+    },
+    "trust": {
+      "encrypted": "End-to-end šifrování",
+      "sheets": "Nativní Google Tabulky",
+      "phone": "WhatsApp + hlasové hovory",
+      "selfHosted": "Self-hosted a open source"
+    },
+    "features": {
+      "label": "Říše",
+      "title1": "Čtyři pilíře.",
+      "title2": "Jeden most.",
+      "subtitle": "Každá funkce je bránou mezi vašimi cloudovými daty a reálným světem.",
+      "loom": {
+        "title": "Správa tabulek",
+        "myth": "Tkalcovský stav",
+        "desc": "Připojte nebo vytvořte Google Tabulky jedním kliknutím. Náhled dat, přejmenujte tabulky a spravujte připojení. Vlákna vašich dat na jednom místě."
+      },
+      "stentor": {
+        "title": "Hlasové vymáhání",
+        "myth": "Hlas Stentora",
+        "desc": "Promeškané úkoly spustí skutečné telefonní hovory s AI-generovanou řečí. Termíny nešeptají \u2014 poroučejí. S WhatsApp zálohou pokud neodpovídáte."
+      },
+      "threads": {
+        "title": "WhatsApp připomínky",
+        "myth": "Vlákna",
+        "desc": "Pravidla s cron rozvrhem kontrolují tabulky a posílají WhatsApp zprávy při chybějících záznamech. Vlákna která spojují sloupce s vaším deníkem."
+      },
+      "allSeeing": {
+        "title": "Přehled",
+        "myth": "Vševidoucí",
+        "desc": "Jeden pohled na všechny říše. Připojené tabulky, aktivní pravidla, nedávné interakce a kontrolní seznam. Oko které střeží celý systém."
+      }
+    },
+    "howItWorks": {
+      "label": "Přechod",
+      "title1": "Tři kroky k",
+      "title2": "velení.",
+      "subtitle": "Od tiché tabulky k zvonícímu telefonu za méně než pět minut.",
+      "step1": {
+        "title": "Připojte říši",
+        "desc": "Připojte svou Google Tabulku nebo vytvořte novou. Bifrost čte data bezpečně přes OAuth \u2014 žádná hesla se neukládají."
+      },
+      "step2": {
+        "title": "Utkejte vlákna",
+        "desc": "Vytvořte pravidla: vyberte tabulku, nastavte cron rozvrh, zvolte sloupec. Definujte co spustí připomínku a co zpráva řekne."
+      },
+      "step3": {
+        "title": "Uvolněte hlas",
+        "desc": "Sedněte si. Když termíny projdou nebo záznamy chybí, Bifrost vám zavolá, pošle zprávu a nepřestane dokud to není hotovo."
+      }
+    },
+    "bridge": {
+      "label": "Bifrost",
+      "title1": "Most mezi",
+      "title2": "daty",
+      "title3": "a",
+      "title4": "osudem",
+      "subtitle": "Tabulky drží plán. Bifrost Link ho vynucuje. Každý promeškaný úkol, každý chybějící záznam, každý zapomenutý návyk \u2014 proměněn v nevyhnutelnou akci.",
+      "ethereal": "Éterická říše",
+      "etherealTitle": "Google Tabulky",
+      "etherealDesc": "Vaše úkoly, termíny, zdravotní metriky a návyky \u2014 vše žije v cloudu. Strukturované, tiché, čekající.",
+      "midgard": "Midgard",
+      "midgardTitle": "Váš telefon",
+      "midgardDesc": "Hlasové hovory které nelze ignorovat. WhatsApp zprávy které přijdou včas. Data proměněna v akci, ve vaší ruce.",
+      "feat1": "<strong>AI hlasové hovory</strong> přes ElevenLabs text-to-speech s vlastními zprávami",
+      "feat2": "<strong>WhatsApp záloha</strong> pokud hovor zmeškáte \u2014 zpráva vás vždy najde",
+      "feat3": "<strong>Cron rozvrhování</strong> s lidsky čitelnými předvolbami nebo vlastními výrazy",
+      "feat4": "<strong>Fernet-šifrované</strong> OAuth tokeny \u2014 vaše Google přihlášení nikdy není uloženo v čistém textu",
+      "feat5": "<strong>Self-hosted</strong> s Docker Compose \u2014 vaše data zůstávají na vaší infrastruktuře"
+    },
+    "stats": {
+      "routes": "Skupin API tras",
+      "tests": "Úspěšných testů",
+      "langs": "Jazyky (EN/CS)",
+      "setup": "Nastavení k prvnímu hovoru"
+    },
+    "cta": {
+      "label": "Překročte most",
+      "title1": "Připraveni dát vašim",
+      "title2": "datům",
+      "title3": "hlas?",
+      "subtitle": "Nasaďte Bifrost Link na vlastní infrastruktuře. Open source, self-hosted, zcela váš.",
+      "getStarted": "Začít",
+      "learnMore": "Zjistit více"
+    },
+    "footer": "Bifrost Link. Most mezi daty a osudem."
+  },
+  "notFound": {
+    "title": "404 — Stránka nenalezena",
+    "message": "Stránka, kterou hledáte, neexistuje nebo byla přesunuta.",
+    "backHome": "Zpět na přehled"
   }
 }

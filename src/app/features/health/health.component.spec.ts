@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
 
@@ -43,13 +42,13 @@ describe('HealthComponent', () => {
   });
 
   it('should create', () => {
-    getHealthMock.mockReturnValue(of(mockHealth));
+    getHealthMock.mockResolvedValue(mockHealth);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display health data on success', async () => {
-    getHealthMock.mockReturnValue(of(mockHealth));
+    getHealthMock.mockResolvedValue(mockHealth);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -62,7 +61,7 @@ describe('HealthComponent', () => {
 
   it('should show error message on failure', async () => {
     const errorMsg = 'Http failure response';
-    getHealthMock.mockReturnValue(throwError(() => new Error(errorMsg)));
+    getHealthMock.mockRejectedValue(new Error(errorMsg));
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -72,7 +71,7 @@ describe('HealthComponent', () => {
   });
 
   it('should have loading state true initially before service resolves', () => {
-    getHealthMock.mockReturnValue(of(mockHealth));
+    getHealthMock.mockResolvedValue(mockHealth);
     // Before detectChanges (ngOnInit), isLoading should be true
     expect(component.isLoading()).toBe(true);
   });

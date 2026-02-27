@@ -1,7 +1,7 @@
 {
   "nav": {
     "appName": "Reminder Commander",
-    "toggleTheme": "Toggle theme",
+    "toggleMenu": "Toggle menu",
     "toggleLang": "CS",
     "profile": "Profile",
     "sheets": "Sheets",
@@ -41,6 +41,7 @@
     "trackerRules": "Tracker Rules",
     "warlordRules": "Warlord Rules",
     "recentActivity": "Recent Activity",
+    "interactionsLogged": "{{count}} interaction(s) logged.",
     "noActivity": "No recent activity yet.",
     "setupTitle": "Get Started",
     "setupHint": "Complete these steps to start receiving reminders.",
@@ -79,10 +80,28 @@
   "sheets": {
     "title": "Your Google Sheets",
     "empty": "No sheets connected yet.",
-    "connectButton": "Connect a Google Sheet",
+    "connectButton": "Connect",
     "urlPlaceholder": "Paste Google Sheet URL...",
     "connecting": "Connecting...",
-    "loadError": "Failed to load sheets."
+    "loadError": "Failed to load sheets.",
+    "connectExisting": "Connect Existing",
+    "createNew": "Create New",
+    "titlePlaceholder": "New sheet name...",
+    "createButton": "Create Sheet",
+    "creating": "Creating...",
+    "disconnect": "Disconnect",
+    "deleteTitle": "Disconnect Sheet",
+    "deleteConfirm": "Are you sure you want to disconnect this sheet?",
+    "deleteConfirmWithRules": "This sheet is used by {{count}} rule(s). Are you sure you want to disconnect it?",
+    "deleteSuccess": "Sheet disconnected.",
+    "deleteFailed": "Failed to disconnect sheet.",
+    "preview": "Preview",
+    "previewLoading": "Loading preview...",
+    "previewFailed": "Failed to load preview.",
+    "rename": "Rename",
+    "saveRename": "Save",
+    "renameSuccess": "Sheet renamed.",
+    "renameFailed": "Failed to rename sheet."
   },
   "rules": {
     "title": "Tracker Rules",
@@ -107,6 +126,8 @@
     "deleteConfirm": "Are you sure you want to delete this rule?",
     "deleteTitle": "Delete Rule",
     "paused": "Paused",
+    "togglePause": "Pause",
+    "toggleResume": "Resume",
     "scheduleDaily": "Once a day",
     "scheduleWeekly": "Once a week",
     "scheduleHourly": "Every N hours",
@@ -159,5 +180,111 @@
     "debugSheetEmpty": "Sheet appears empty or unreadable.",
     "debugExpected": "Expected: Col A = task name · Col B = YYYY-MM-DD date · Col C = FALSE (past date, unchecked)",
     "debugCheckSheet": "Check sheet"
+  },
+  "landing": {
+    "tagline": "Bridging Data and Destiny",
+    "heroTitle1": "Your sheets",
+    "heroTitle2": "speak.",
+    "heroTitle3": "Your phone",
+    "heroTitle4": "obeys.",
+    "heroSubtitle": "Bifrost Link transforms Google Sheets into automated voice calls and WhatsApp reminders. Deadlines become commands. Data becomes action.",
+    "ctaStart": "Start Free",
+    "ctaHow": "See How It Works",
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "bridge": "The Bridge",
+      "getStarted": "Get Started"
+    },
+    "trust": {
+      "encrypted": "End-to-end encrypted",
+      "sheets": "Google Sheets native",
+      "phone": "WhatsApp + Voice calls",
+      "selfHosted": "Self-hosted & open source"
+    },
+    "features": {
+      "label": "The Realms",
+      "title1": "Four pillars.",
+      "title2": "One bridge.",
+      "subtitle": "Each feature is a gateway between your cloud data and real-world action.",
+      "loom": {
+        "title": "Sheets Management",
+        "myth": "The Loom",
+        "desc": "Connect or create Google Sheets with one click. Preview data, rename sheets, and manage connections. The threads of your data, gathered in one place."
+      },
+      "stentor": {
+        "title": "Voice Enforcement",
+        "myth": "The Voice of Stentor",
+        "desc": "Overdue tasks trigger real phone calls with AI-generated speech. Deadlines don't whisper \u2014 they command. With WhatsApp fallback if you don't answer."
+      },
+      "threads": {
+        "title": "WhatsApp Reminders",
+        "myth": "The Threads",
+        "desc": "Cron-scheduled rules check your sheets and send WhatsApp messages when entries are missing. The threads that connect your columns to your daily life."
+      },
+      "allSeeing": {
+        "title": "Dashboard",
+        "myth": "The All-Seeing",
+        "desc": "One view across all realms. Connected sheets, active rules, recent interactions, and a setup checklist. The eye that watches over your entire system."
+      }
+    },
+    "howItWorks": {
+      "label": "The Crossing",
+      "title1": "Three steps to",
+      "title2": "command.",
+      "subtitle": "From silent spreadsheet to ringing phone in under five minutes.",
+      "step1": {
+        "title": "Connect the Realm",
+        "desc": "Link your Google Sheet or create a new one. Bifrost reads your data securely via OAuth \u2014 no passwords stored."
+      },
+      "step2": {
+        "title": "Weave the Threads",
+        "desc": "Create rules: pick a sheet, set a cron schedule, choose a column. Define what triggers a reminder and what the message says."
+      },
+      "step3": {
+        "title": "Unleash the Voice",
+        "desc": "Sit back. When deadlines pass or entries are missing, Bifrost calls you, messages you, and doesn't stop until it's done."
+      }
+    },
+    "bridge": {
+      "label": "The Bifrost",
+      "title1": "The bridge between",
+      "title2": "data",
+      "title3": "and",
+      "title4": "destiny",
+      "subtitle": "Your spreadsheets hold the plan. Bifrost Link enforces it. Every overdue task, every missed entry, every forgotten habit \u2014 turned into an unavoidable action.",
+      "ethereal": "Ethereal Realm",
+      "etherealTitle": "Google Sheets",
+      "etherealDesc": "Your tasks, deadlines, health metrics, and habits \u2014 all living in the cloud. Structured, silent, waiting.",
+      "midgard": "Midgard",
+      "midgardTitle": "Your Phone",
+      "midgardDesc": "Voice calls that won't be ignored. WhatsApp messages that arrive on time. Data turned into action, in your hand.",
+      "feat1": "<strong>AI voice calls</strong> via ElevenLabs text-to-speech with custom messages",
+      "feat2": "<strong>WhatsApp fallback</strong> if you miss the call \u2014 the message always reaches you",
+      "feat3": "<strong>Cron scheduling</strong> with human-readable presets or custom expressions",
+      "feat4": "<strong>Fernet-encrypted</strong> OAuth tokens \u2014 your Google credentials are never stored in plain text",
+      "feat5": "<strong>Self-hosted</strong> with Docker Compose \u2014 your data stays on your infrastructure"
+    },
+    "stats": {
+      "routes": "API route groups",
+      "tests": "Tests passing",
+      "langs": "Languages (EN/CS)",
+      "setup": "Setup to first call"
+    },
+    "cta": {
+      "label": "Cross the Bridge",
+      "title1": "Ready to make your",
+      "title2": "data",
+      "title3": "speak?",
+      "subtitle": "Deploy Bifrost Link on your own infrastructure. Open source, self-hosted, fully yours.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "footer": "Bifrost Link. Bridging Data and Destiny."
+  },
+  "notFound": {
+    "title": "404 — Page Not Found",
+    "message": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Back to Dashboard"
   }
 }

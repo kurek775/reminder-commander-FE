@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface HealthResponse {
@@ -13,7 +13,7 @@ export interface HealthResponse {
 export class HealthService {
   private readonly http = inject(HttpClient);
 
-  getHealth(): Observable<HealthResponse> {
-    return this.http.get<HealthResponse>(`${environment.apiUrl}/api/v1/health`);
+  getHealth(): Promise<HealthResponse> {
+    return firstValueFrom(this.http.get<HealthResponse>(`${environment.apiUrl}/api/v1/health`));
   }
 }

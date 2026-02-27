@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
-import { firstValueFrom } from 'rxjs';
 import { HealthService, HealthResponse } from './health.service';
 
 @Component({
@@ -18,7 +17,7 @@ export class HealthComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const data = await firstValueFrom(this.healthService.getHealth());
+      const data = await this.healthService.getHealth();
       this.health.set(data);
     } catch (err) {
       this.errorMessage.set((err as Error).message ?? 'Failed to connect to backend.');

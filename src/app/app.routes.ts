@@ -5,6 +5,13 @@ import { authGuard } from './core/auth/auth.guard';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () =>
+      import('./features/landing/landing.component').then(
+        (m) => m.LandingComponent,
+      ),
+  },
+  {
+    path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/dashboard/dashboard.component').then(
@@ -19,8 +26,8 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./features/auth/login/login.component').then((m) => m.LoginComponent),
+    redirectTo: '',
+    pathMatch: 'full',
   },
   {
     path: 'auth/callback',
@@ -61,5 +68,11 @@ export const routes: Routes = [
         (m) => m.WarlordComponent,
       ),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./features/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent,
+      ),
+  },
 ];

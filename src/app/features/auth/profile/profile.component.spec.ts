@@ -82,22 +82,11 @@ describe('ProfileComponent', () => {
     expect(toastService.success).toHaveBeenCalled();
   });
 
-  it('should show error on 409 duplicate phone', async () => {
+  it('should show toast error on 409 duplicate phone', async () => {
     authService.linkWhatsapp.mockRejectedValue({ status: 409 });
     const fixture = TestBed.createComponent(ProfileComponent);
     fixture.componentInstance.phone.set('+48999999999');
     await fixture.componentInstance.onLinkWhatsapp();
-    expect(fixture.componentInstance.errorMessage()).toBe(
-      'This phone number is already linked to another account.',
-    );
     expect(toastService.error).toHaveBeenCalled();
-  });
-
-  it('should clear errorMessage on successful link', async () => {
-    const fixture = TestBed.createComponent(ProfileComponent);
-    fixture.componentInstance.errorMessage.set('old error');
-    fixture.componentInstance.phone.set('+48123456789');
-    await fixture.componentInstance.onLinkWhatsapp();
-    expect(fixture.componentInstance.errorMessage()).toBeNull();
   });
 });

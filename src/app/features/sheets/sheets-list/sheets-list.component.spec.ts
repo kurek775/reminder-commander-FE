@@ -46,6 +46,8 @@ describe('SheetsListComponent', () => {
     const fixture = TestBed.createComponent(SheetsListComponent);
     fixture.detectChanges();
     await fixture.whenStable();
+    // Extra tick for the async SheetsService.getSheets() promise resolution
+    await new Promise((r) => setTimeout(r, 0));
     fixture.detectChanges();
 
     expect(fixture.componentInstance.sheets()).toEqual(mockSheets);

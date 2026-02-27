@@ -1,19 +1,14 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
-import { environment } from '../../../environments/environment';
 import { WarlordService, InteractionLog } from './warlord.service';
 import { TrackerRule } from '../rules/rules.service';
 import { SheetIntegration } from '../../shared/models';
+import { SheetsService } from '../sheets/sheets.service';
 import {
   buildCron,
-  HOUR_OPTIONS,
-  INTERVAL_OPTIONS,
-  padHour,
   parseCron,
   ScheduleType,
 } from '../../shared/cron-utils';
@@ -21,10 +16,11 @@ import { CronToHumanPipe } from '../../shared/cron-to-human.pipe';
 import { ToastService } from '../../shared/toast/toast.service';
 import { ConfirmModalService } from '../../shared/confirm-modal/confirm-modal.service';
 import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
+import { SchedulePickerComponent } from '../../shared/schedule-picker/schedule-picker.component';
 
 @Component({
   selector: 'app-warlord',
-  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent],
+  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent, SchedulePickerComponent],
   templateUrl: './warlord.component.html',
 })
 export class WarlordComponent implements OnInit {
@@ -71,17 +67,12 @@ export class WarlordComponent implements OnInit {
     () => this.formName().trim() !== '' && this.formSheetId().trim() !== '',
   );
 
-  readonly hourOptions = HOUR_OPTIONS;
-  readonly intervalOptions = INTERVAL_OPTIONS;
-  readonly padHour = padHour;
-
   private readonly warlordService = inject(WarlordService);
-  private readonly http = inject(HttpClient);
+  private readonly sheetsService = inject(SheetsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly transloco = inject(TranslocoService);
   private readonly toast = inject(ToastService);
   private readonly confirmModal = inject(ConfirmModalService);
-  private readonly sheetsApiUrl = `${environment.apiUrl}/api/v1/sheets`;
   private triggerTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
@@ -240,7 +231,7 @@ export class WarlordComponent implements OnInit {
     try {
       const [rules, sheets, logs] = await Promise.all([
         this.warlordService.getWarlordRules(),
-        firstValueFrom(this.http.get<SheetIntegration[]>(`${this.sheetsApiUrl}/`)),
+        this.sheetsService.getSheets(),
         this.warlordService.getVoiceLogs(),
       ]);
       this.rules.set(rules);

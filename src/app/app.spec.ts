@@ -22,11 +22,9 @@ describe('App', () => {
     const authService = {
       currentUser: signal(null),
       logout: vi.fn(),
+      login: vi.fn(),
     };
-    const themeService = {
-      isDark: signal(false),
-      toggle: vi.fn(),
-    };
+    const themeService = {};
     const langService = {
       lang: signal('en'),
       toggle: vi.fn(),

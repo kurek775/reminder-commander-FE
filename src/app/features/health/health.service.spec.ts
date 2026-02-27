@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { vi } from 'vitest';
 import { of, throwError } from 'rxjs';
-import { firstValueFrom } from 'rxjs';
 
 import { HealthService, HealthResponse } from './health.service';
 
@@ -36,7 +35,7 @@ describe('HealthService', () => {
   it('getHealth should call GET /api/v1/health', async () => {
     httpClient.get.mockReturnValue(of(mockHealth));
 
-    const result = await firstValueFrom(service.getHealth());
+    const result = await service.getHealth();
 
     expect(httpClient.get).toHaveBeenCalledWith(
       'http://localhost:8000/api/v1/health',
@@ -44,18 +43,17 @@ describe('HealthService', () => {
     expect(result).toEqual(mockHealth);
   });
 
-  it('getHealth should return an Observable', () => {
+  it('getHealth should return a Promise', () => {
     httpClient.get.mockReturnValue(of(mockHealth));
 
-    const obs = service.getHealth();
+    const result = service.getHealth();
 
-    // Verify it is an Observable (has subscribe method)
-    expect(typeof obs.subscribe).toBe('function');
+    expect(result).toBeInstanceOf(Promise);
   });
 
   it('getHealth should propagate errors', async () => {
     httpClient.get.mockReturnValue(throwError(() => new Error('Network error')));
 
-    await expect(firstValueFrom(service.getHealth())).rejects.toThrow('Network error');
+    await expect(service.getHealth()).rejects.toThrow('Network error');
   });
 });

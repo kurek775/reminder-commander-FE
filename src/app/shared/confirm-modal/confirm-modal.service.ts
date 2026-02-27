@@ -16,6 +16,11 @@ export class ConfirmModalService {
   private resolveFn: ((value: boolean) => void) | null = null;
 
   confirm(opts: ConfirmOptions): Promise<boolean> {
+    // Resolve any outstanding promise before creating a new one
+    if (this.resolveFn) {
+      this.resolveFn(false);
+      this.resolveFn = null;
+    }
     this.options.set(opts);
     this.visible.set(true);
     return new Promise<boolean>((resolve) => {

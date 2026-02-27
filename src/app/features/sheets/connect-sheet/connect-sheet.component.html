@@ -1,16 +1,59 @@
-<div class="flex items-center gap-2">
-  <input
-    type="url"
-    [value]="sheetUrl()"
-    (input)="sheetUrl.set($any($event.target).value)"
-    [placeholder]="'sheets.urlPlaceholder' | transloco"
-    class="w-full sm:w-64 px-4 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
-  />
-  <button
-    (click)="onConnect()"
-    [disabled]="!isValidUrl() || isConnecting()"
-    class="px-5 py-2.5 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-colors shrink-0"
-  >
-    {{ isConnecting() ? ('sheets.connecting' | transloco) : ('sheets.connectButton' | transloco) }}
-  </button>
+<div class="space-y-3">
+  <!-- Toggle tabs -->
+  <div class="flex gap-1 p-0.5 bg-gray-800 rounded-lg w-fit">
+    <button
+      (click)="mode.set('connect')"
+      class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors"
+      [class]="mode() === 'connect'
+        ? 'bg-gray-700 text-white'
+        : 'text-gray-400 hover:text-gray-300'">
+      {{ 'sheets.connectExisting' | transloco }}
+    </button>
+    <button
+      (click)="mode.set('create')"
+      class="px-3 py-1.5 text-xs font-medium rounded-md transition-colors"
+      [class]="mode() === 'create'
+        ? 'bg-gray-700 text-white'
+        : 'text-gray-400 hover:text-gray-300'">
+      {{ 'sheets.createNew' | transloco }}
+    </button>
+  </div>
+
+  <!-- Connect existing -->
+  @if (mode() === 'connect') {
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+      <input
+        type="url"
+        [value]="sheetUrl()"
+        (input)="sheetUrl.set($any($event.target).value)"
+        [placeholder]="'sheets.urlPlaceholder' | transloco"
+        class="w-full sm:w-64 px-4 py-2.5 text-sm bg-gray-800 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
+      />
+      <button
+        (click)="onConnect()"
+        [disabled]="!isValidUrl() || isConnecting()"
+        class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-cyan-500 to-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-colors shrink-0"
+      >
+        {{ isConnecting() ? ('sheets.connecting' | transloco) : ('sheets.connectButton' | transloco) }}
+      </button>
+    </div>
+  } @else {
+    <!-- Create new -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+      <input
+        type="text"
+        [value]="sheetTitle()"
+        (input)="sheetTitle.set($any($event.target).value)"
+        [placeholder]="'sheets.titlePlaceholder' | transloco"
+        class="w-full sm:w-64 px-4 py-2.5 text-sm bg-gray-800 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
+      />
+      <button
+        (click)="onCreateSheet()"
+        [disabled]="!isValidTitle() || isConnecting()"
+        class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-cyan-500 to-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-colors shrink-0"
+      >
+        {{ isConnecting() ? ('sheets.creating' | transloco) : ('sheets.createButton' | transloco) }}
+      </button>
+    </div>
+  }
 </div>

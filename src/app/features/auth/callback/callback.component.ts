@@ -17,11 +17,12 @@ export class CallbackComponent implements OnInit {
   ngOnInit(): void {
     const code = this.route.snapshot.queryParamMap.get('code');
     if (code) {
-      this.authService.exchangeCode(code).then(() => {
-        this.router.navigate(['/profile']);
-      });
+      this.authService.exchangeCode(code).then(
+        () => this.router.navigate(['/dashboard']),
+        () => this.router.navigate(['/']),
+      );
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
   }
 }

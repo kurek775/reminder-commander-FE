@@ -1,9 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { environment } from '../../../../environments/environment';
+import { SheetsService } from '../sheets.service';
 
 @Component({
   selector: 'app-connect-sheet',
@@ -11,23 +9,33 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './connect-sheet.component.html',
 })
 export class ConnectSheetComponent {
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/v1/sheets`;
+  private readonly sheetsService = inject(SheetsService);
 
+  mode = signal<'connect' | 'create'>('connect');
   sheetUrl = signal('');
+  sheetTitle = signal('');
   isConnecting = signal(false);
 
   isValidUrl = computed(() =>
     /\/spreadsheets\/d\/[a-zA-Z0-9_-]+/.test(this.sheetUrl()),
   );
 
+  isValidTitle = computed(() => this.sheetTitle().trim().length > 0);
+
   async onConnect(): Promise<void> {
     this.isConnecting.set(true);
     try {
-      const params = new HttpParams().set('sheet_url', this.sheetUrl());
-      const response = await firstValueFrom(
-        this.http.get<{ auth_url: string }>(`${this.apiUrl}/connect`, { params }),
-      );
+      const response = await this.sheetsService.connectSheet(this.sheetUrl());
+      window.location.href = response.auth_url;
+    } finally {
+      this.isConnecting.set(false);
+    }
+  }
+
+  async onCreateSheet(): Promise<void> {
+    this.isConnecting.set(true);
+    try {
+      const response = await this.sheetsService.createSheet(this.sheetTitle());
       window.location.href = response.auth_url;
     } finally {
       this.isConnecting.set(false);

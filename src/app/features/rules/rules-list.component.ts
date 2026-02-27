@@ -1,19 +1,13 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
-import { environment } from '../../../environments/environment';
 import { RulesService, SheetColumnHeader, TrackerRule } from './rules.service';
 import { SheetIntegration } from '../../shared/models';
+import { SheetsService } from '../sheets/sheets.service';
 import {
   buildCron,
-  cronToHuman,
-  HOUR_OPTIONS,
-  INTERVAL_OPTIONS,
-  padHour,
   parseCron,
   ScheduleType,
 } from '../../shared/cron-utils';
@@ -21,10 +15,11 @@ import { CronToHumanPipe } from '../../shared/cron-to-human.pipe';
 import { ToastService } from '../../shared/toast/toast.service';
 import { ConfirmModalService } from '../../shared/confirm-modal/confirm-modal.service';
 import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
+import { SchedulePickerComponent } from '../../shared/schedule-picker/schedule-picker.component';
 
 @Component({
   selector: 'app-rules-list',
-  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent],
+  imports: [CommonModule, FormsModule, TranslocoModule, CronToHumanPipe, SkeletonComponent, SchedulePickerComponent],
   templateUrl: './rules-list.component.html',
 })
 export class RulesListComponent implements OnInit {
@@ -74,22 +69,20 @@ export class RulesListComponent implements OnInit {
       this.formPromptText().trim() !== '',
   );
 
-  readonly hourOptions = HOUR_OPTIONS;
-  readonly intervalOptions = INTERVAL_OPTIONS;
-  readonly padHour = padHour;
-
   private readonly rulesService = inject(RulesService);
-  private readonly http = inject(HttpClient);
+  private readonly sheetsService = inject(SheetsService);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly transloco = inject(TranslocoService);
   private readonly toast = inject(ToastService);
   private readonly confirmModal = inject(ConfirmModalService);
-  private readonly sheetsApiUrl = `${environment.apiUrl}/api/v1/sheets`;
+  private deleteTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
+    this.destroyRef.onDestroy(() => {
+      if (this.deleteTimeout) clearTimeout(this.deleteTimeout);
+    });
     this.loadRules();
-    firstValueFrom(this.http.get<SheetIntegration[]>(`${this.sheetsApiUrl}/`)).then(
-      (data) => this.sheets.set(data),
-    );
+    this.sheetsService.getSheets().then((data) => this.sheets.set(data));
   }
 
   toggleForm(): void {
@@ -186,7 +179,7 @@ export class RulesListComponent implements OnInit {
       undone = true;
       if (removed) this.rules.update((list) => [...list, removed]);
     });
-    await new Promise((r) => setTimeout(r, 5000));
+    await new Promise((r) => (this.deleteTimeout = setTimeout(r, 5000)));
     if (undone) return;
     try {
       await this.rulesService.deleteRule(ruleId);

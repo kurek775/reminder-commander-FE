@@ -42,13 +42,13 @@ describe('CallbackComponent', () => {
     await fixture.whenStable();
 
     expect(authService.exchangeCode).toHaveBeenCalledWith('test-auth-code');
-    expect(router.navigate).toHaveBeenCalledWith(['/profile']);
+    expect(router.navigate).toHaveBeenCalledWith(['/dashboard']);
   });
 
-  it('should navigate to /login when no code', async () => {
+  it('should navigate to / when no code', async () => {
     const fixture = await setup(null);
     fixture.detectChanges();
 
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
 });

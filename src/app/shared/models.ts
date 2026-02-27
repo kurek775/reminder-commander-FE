@@ -5,4 +5,11 @@ export interface SheetIntegration {
   sheet_name: string;
   is_active: boolean;
   token_expires_at?: string;
+  display_name?: string | null;
+}
+
+export interface SheetPreview {
+  headers: string[];
+  rows: string[][];
+  total_rows: number;
 }

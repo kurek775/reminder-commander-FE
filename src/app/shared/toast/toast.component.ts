@@ -49,11 +49,11 @@ export class ToastComponent {
   colorClass(type: string): string {
     switch (type) {
       case 'success':
-        return 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-700 text-green-800 dark:text-green-300';
+        return 'bg-green-500/10 border-green-500/20 text-green-400';
       case 'error':
-        return 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-700 text-red-800 dark:text-red-300';
+        return 'bg-red-500/10 border-red-500/20 text-red-400';
       default:
-        return 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700 text-blue-800 dark:text-blue-300';
+        return 'bg-blue-500/10 border-blue-500/20 text-blue-400';
     }
   }
 
